@@ -1716,6 +1716,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
   padding: 0.55em 1em;
   border: var(--line-thin) solid var(--ink);
   background: var(--paper);
+  color: var(--ink);
 }
 .media-tab[aria-selected="true"]{ background: var(--sidings); color: var(--sidings-ink); }
 @media (max-width: 720px){
