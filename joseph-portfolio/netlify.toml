@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+
+# No build command — this is a static HTML/CSS/JS site with no build
+# step, so there's nothing to compile. Netlify just serves these files
+# as-is. The netlify/edge-functions/ folder is auto-detected by
+# Netlify's standard convention, so the per-article-preview function
+# there (piece-meta.js) needs no extra config here.
