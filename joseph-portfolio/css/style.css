@@ -1,0 +1,2955 @@
+/* =========================================================
+   JOSEPH QUASH — PORTFOLIO
+   Design system: bold, warm, editorial — not dark-mode moody.
+   Cream paper background, near-black ink, three saturated
+   accents used as category/section flags. Big italic serif
+   display type against clean sans body copy, mono for labels.
+   ========================================================= */
+
+/* ---------- Fonts ----------
+   Big Shoulders Display: bold condensed headline face (nav,
+   h1/h2, pill buttons, event meta) — the punchy "masthead"
+   voice. Fraunces: kept only for quiet, upright long-form
+   reading moments (piece deks). Inter: body copy. Space Mono:
+   small meta/labels. */
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* ---------- Tokens ---------- */
+:root{
+  --paper: #F1EEE8;
+  --paper-alt: #E8E1D3;
+  --ink: #14110E;
+  --ink-soft: #4A4739;
+
+  --accent: #EC5933;      /* Epic flag */
+  --accent-ink: #14110F;
+  --accent2: #344BCC;     /* Dramatic flag */
+  --accent2-ink: #F1EEE8;
+  --accent3: #EBC451;     /* Lyric flag */
+  --accent3-ink: #14110F;
+
+  --sidings: #B23A3D;     /* Sidings' own brand colour — constant
+                              across light and dark, a fourth
+                              identity alongside the three writing
+                              categories rather than tied to one */
+  --sidings-ink: #F1EEE8;
+
+  --line: var(--ink);
+  --line-thin: 1px;
+  --line-thick: 3px;
+
+  --radius: 2px;
+  --shadow-pop: 6px 6px 0 var(--ink);
+  --shadow-pop-sm: 4px 4px 0 var(--ink);
+
+  --font-headline: 'Big Shoulders Display', 'Arial Narrow', 'Helvetica Neue Condensed', Arial, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Space Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Body-copy scale: mirrors the display scale, where the homepage
+     hero's "Joseph Quash" sits above every other h1/h2 subtitle.
+     --body-lg is reserved for that one hero paragraph; --body is
+     the size for every other chunk's running text, deliberately a
+     step down rather than matching it. */
+  --body-lg: clamp(1.05rem, 2vw, 1.3rem);
+  --body: clamp(1rem, 1.6vw, 1.15rem);
+
+  --container: 1220px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ---------- Dark theme (Sidings half) ----------
+   Same component system as the rest of the site — type,
+   spacing, borders, shadow language — with paper/ink (and
+   one accent) inverted. Scoped to <body data-theme="dark">,
+   used only on events.html, so crossing into Sidings reads
+   as a different room of the same house, not a different
+   site: every component below is still built from these
+   tokens, so the flip cascades automatically. --sidings is
+   deliberately NOT overridden here — it's the one colour that
+   stays identical on both sides, the throughline between them. */
+body[data-theme="dark"]{
+  --paper: #14110E;
+  --paper-alt: #2A2622;
+  --ink: #F1EEE8;
+  --ink-soft: #B6AD96;
+  --accent2: #5C7CFF;   /* brighter/more electric on black */
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img{ max-width: 100%; display: block; }
+a{ color: inherit; }
+h1,h2,h3,h4,p,ul,ol,figure{ margin: 0; }
+ul{ padding: 0; list-style: none; }
+button{ font: inherit; cursor: pointer; }
+input, textarea{ font: inherit; }
+
+.container{
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden{
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- Type helpers ---------- */
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.display{
+  font-family: var(--font-headline);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+.display-italic{ font-family: var(--font-display); font-style: italic; font-weight: 500; }
+
+/* ---------- Skip link ---------- */
+.skip-link{
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--accent); color: var(--accent-ink);
+  padding: 0.75em 1.2em; font-family: var(--font-mono);
+}
+.skip-link:focus{ left: var(--gutter); top: var(--gutter); }
+
+/* =========================================================
+   SITE HEADER
+   ========================================================= */
+.site-header{
+  border-bottom: var(--line-thick) solid var(--line);
+  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+/* Sidings only: same thickness and solid style as every other
+   page's header rule, just in the oxblood that carries the rest
+   of the page — a full, uninterrupted line the whole width of the
+   header, not the dashed hero-to-list rule further down the page. */
+.site-header--sidings{ border-bottom-color: var(--sidings); }
+.site-header__bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.1rem;
+  gap: 1.5rem;
+}
+.wordmark{
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+/* Logo mark: real live text (not an image), set exactly per the
+   Oxblood reference — Big Shoulders Display 900, -0.02em tracking —
+   over its own bar. Rendered as HTML/CSS rather than baked into an
+   <img>-loaded SVG, because a browser will not fetch an external
+   web font for an SVG used as an image/favicon; as a live element
+   in the page it loads the real typeface normally, from the same
+   Big Shoulders Display import the rest of the site already uses.
+   Colours are fixed to the Oxblood values rather than the paper/ink
+   tokens, since the mark itself doesn't invert the same way the
+   rest of the page does — dark override below swaps which side is
+   which, per the light/dark reference files. */
+.logo-mark{
+  width: clamp(2.2rem, 5vw, 2.8rem);
+  height: clamp(2.2rem, 5vw, 2.8rem);
+  /* font-size mirrors width/height so the child sizes below (set in
+     em, matched to the 240x240 Oxblood reference ratios) scale with
+     the box exactly, whatever breakpoint clamp() lands on. */
+  font-size: clamp(2.2rem, 5vw, 2.8rem);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.058em;
+  background: #F1EEE8;
+  border: 2px solid var(--ink);
+  overflow: hidden;
+}
+body[data-theme="dark"] .logo-mark{
+  background: #14110E;
+  border-color: var(--sidings);
+}
+.logo-mark__text{
+  font-family: 'Big Shoulders Display', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 900;
+  font-size: 0.625em;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #14110E;
+}
+body[data-theme="dark"] .logo-mark__text{ color: var(--sidings); }
+.logo-mark__bar{
+  width: 0.458em;
+  height: 0.05em;
+  background: var(--sidings);
+}
+body[data-theme="dark"] .logo-mark__bar{ background: #F1EEE8; }
+.wordmark__label{
+  margin-left: 0.7em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+  white-space: nowrap;
+}
+.wordmark__label--sidings{
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sidings);
+}
+
+.main-nav ul{
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.9rem);
+  flex-wrap: wrap;
+}
+.main-nav a{
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+}
+.main-nav a:hover,
+.main-nav a[aria-current="page"]{
+  border-bottom-color: var(--ink);
+}
+/* Category links: a permanent colour-coded squiggle under each one
+   instead of the plain hover rule, so each keeps its own identity
+   right in the nav — matched by href since every page shares the
+   same relative links. Drawn as a fixed-size masked shape (not
+   text-decoration: wavy) so DRAMATIC / EPIC / LYRIC all get an
+   identical, uniform scribble regardless of word length. */
+.main-nav a[href="dramatic.html"],
+.main-nav a[href="epic.html"],
+.main-nav a[href="lyric.html"]{
+  position: relative;
+  border-bottom: none;
+  padding-bottom: 9px;
+}
+.main-nav a[href="dramatic.html"]::after,
+.main-nav a[href="epic.html"]::after,
+.main-nav a[href="lyric.html"]::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 7px;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5 T30 5 T40 5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 10'%3E%3Cpath d='M0 5 Q5 0 10 5 T20 5 T30 5 T40 5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.main-nav a[href="dramatic.html"]::after{ background-color: var(--accent2); }
+.main-nav a[href="epic.html"]::after{ background-color: var(--accent); }
+.main-nav a[href="lyric.html"]::after{ background-color: color-mix(in srgb, var(--accent3) 75%, var(--ink) 25%); }
+.main-nav a[aria-current="page"]{ font-weight: 700; }
+/* Sidings: a solid pill rather than a text link — the nav itself
+   hints at the site's two halves. Colour is --sidings, which does
+   not flip with the light/dark theme, so the pill reads identically
+   whichever half you're on. */
+.main-nav a[href="events.html"]{
+  background: var(--sidings);
+  color: var(--sidings-ink);
+  border-radius: 999px;
+  padding: 0.5em 1.2em;
+  border-bottom: none;
+}
+.main-nav a[href="events.html"]:hover{
+  background: color-mix(in srgb, var(--sidings) 82%, black 18%);
+}
+.nav-toggle{
+  display: none;
+  background: none; border: var(--line-thin) solid var(--ink);
+  padding: 0.5em 0.7em; font-family: var(--font-mono);
+}
+
+/* =========================================================
+   HERO / INTRO BAND
+   ========================================================= */
+.hero{
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+  border-bottom: var(--line-thick) solid var(--line);
+}
+/* Sidings' hero hands off to the event list with its own dashed
+   red rule instead of the site's usual solid ink one. */
+.hero--sidings-divider{
+  border-bottom-style: dashed;
+  border-bottom-color: var(--sidings);
+  border-bottom-width: 2px;
+}
+.hero__kicker{
+  margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.hero__kicker::before{
+  content: "";
+  width: 0.6em; height: 0.6em;
+  background: var(--sidings); /* oxblood, site-wide */
+  border-radius: 50%;
+  display: inline-block;
+}
+body[data-theme="dark"] .hero__kicker{ color: var(--sidings); }
+body[data-theme="dark"] .hero__kicker::before{ background: var(--sidings); }
+.hero h1{
+  font-size: clamp(2.7rem, 6.8vw, 5.4rem);
+  max-width: 16ch;
+}
+/* A dictionary-style gloss on the page's own name — sits right under
+   the Sidings h1, in the same smaller italic serif as the "well –
+   assembled" subtitle on Lyric, so a title-plus-definition treatment
+   reads as an established move rather than a one-off for this page. */
+.hero__definition{
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+  margin-top: 1.3rem;
+  margin-bottom: 1.6rem;
+  max-width: 46ch;
+}
+.hero__definition-pos{
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--sidings);
+}
+/* The definition text is its own flex item (rather than the whole
+   .hero__definition line being one run of text) so a wrapped second
+   line hangs indented under "A short...", in line with where the
+   text itself starts — not back under the "noun" label to its left,
+   the way a plain inline wrap would otherwise fall. */
+.hero__definition-text{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+}
+/* The manual break after "...main line" (events.html) gives the
+   definition a clean, deliberate two-line shape on wider screens.
+   Below 720px the narrower column already wraps the sentence on its
+   own well before that word, so the manual break just adds an extra,
+   oddly-short line on top of the natural wrap — dropped here only. */
+@media (max-width: 720px){
+  .hero__definition-break{ display: none; }
+}
+.hero p.lede{
+  margin-top: 1.4rem;
+  max-width: 56ch;
+  /* Default size for a hero lede is the same step-down "everywhere
+     else" size as the rest of the site's body copy — the homepage's
+     own intro paragraphs are the one exception, sized back up to
+     --body-lg just below, since that's "the first chunk" the rest
+     of the site's text is meant to read as slightly smaller than. */
+  font-size: var(--body);
+  color: var(--ink-soft);
+}
+/* The homepage's own intro — "the first chunk" — is the one place
+   this reads at the larger size; every other hero (Dramatic, Epic,
+   Lyric, Sidings) now falls back to the shared --body size above. */
+.hero--intro p.lede{ font-size: var(--body-lg); }
+/* Sidings' new intro copy runs the full width of the page for now,
+   rather than wrapping at the usual 56ch — a placeholder stance
+   until there's a finished logo/mark to help fill and balance the
+   space, at which point this is worth revisiting. */
+.hero--sidings-divider p.lede{ max-width: none; }
+.hero__actions{
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- Homepage hero: text + illustration ---------- */
+.hero__grid{
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+@media (max-width: 860px){
+  .hero__grid{ grid-template-columns: 1fr; }
+}
+/* width:100% here is load-bearing, not decorative: the inline SVG
+   has no explicit width/height attributes (only a viewBox), so
+   without it the auto side-margins below trigger shrink-to-fit
+   sizing and the box quietly falls back to the browser's default
+   replaced-element size (300×150-ratio) — max-width alone never
+   actually governs it. width:100% fills the grid column (up to
+   max-width), and the auto margins then just center whatever's left
+   over once max-width caps it below the column's own width.
+   335px is a deliberate ceiling, not a rounder/bigger number: past
+   it the visual (860:1000 aspect) grows taller than the text
+   column's own height, so the row — and the whole intro chunk —
+   starts growing to match the artwork instead of the copy, same as
+   it briefly did before this was dialled back in. */
+.hero__visual{ width: 100%; max-width: 335px; margin-inline: auto; }
+.hero__visual img,
+.hero__visual svg{ width: 100%; height: auto; display: block; }
+@media (max-width: 860px){
+  .hero__visual{ max-width: 335px; }
+}
+/* Easter egg: each shape links to its writing category. No visible
+   change at rest — just a pointer cursor and a focus ring for
+   keyboard users — since the artwork itself should look untouched. */
+.hero-visual-svg a{ cursor: pointer; }
+.hero-visual-svg a:focus-visible{ outline: 2px dashed var(--ink); outline-offset: 3px; }
+
+/* ---------- Buttons ---------- */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.85em 1.3em;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--shadow-pop-sm);
+  transform: translate(0,0);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn:hover{
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.btn:active{
+  transform: translate(0,0);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+/* Solid ink fill needs its own light-coloured pop shadow — an ink
+   shadow on an ink button disappears into the fill, unlike the ghost
+   button below where the black shadow reads clearly against the
+   transparent/paper interior. Kept paper-cream but with a thin ink
+   keyline, since paper-on-paper alone vanishes against the page.
+   The ink layer is drawn at the SAME offset/size as every other
+   button's plain shadow (0 spread), so the overall silhouette is an
+   identical height/size to "See Sidings" — it's only reversed in
+   colour. The paper layer sits on top, pulled in by --line-thin (the
+   same 1px used for every button's own border, incl. "See Sidings"'
+   left/top edge) so the visible keyline reads as the same weight as
+   that border rather than a heavier, mismatched outline. */
+.btn--solid{ background: var(--ink); color: var(--paper); border-color: var(--ink); box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink); }
+.btn--solid:hover{ box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink); }
+.btn--ghost{ background: transparent; }
+/* "More <Category>" link at the foot of a reading page — filled with
+   the piece's own category colour and given the paper-fill-plus-ink-
+   keyline shadow (reads as a white shadow with a thin black outline),
+   same treatment as the "Read" buttons (.category-feature__read /
+   .piece-card) and .category-band__link, rather than a plain ghost
+   button. The standalone "Home" link that used to sit beside it was
+   dropped — the JQ wordmark in the header already goes home. */
+.reading__more{
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink);
+}
+.reading__more:hover{
+  box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink);
+}
+.reading__more.tag--essays{ background: var(--accent); color: var(--accent-ink); }
+.reading__more.tag--journalism{ background: var(--accent2); color: var(--accent2-ink); }
+.reading__more.tag--creative{ background: var(--accent3); color: var(--accent3-ink); }
+.btn--on-dark{ background: var(--paper); color: var(--ink); box-shadow: 6px 6px 0 var(--paper); border-color: var(--paper); }
+.btn--on-dark:hover{ box-shadow: 6px 6px 0 var(--sidings); }
+.btn--sidings{ background: var(--sidings); color: var(--sidings-ink); border-color: var(--ink); }
+/* Homepage-hero-only variant: oxblood fill with white/paper text —
+   same idea as .btn--sidings, but paired with the .btn--solid-style
+   paper shadow + thin ink keyline (instead of the plain ink shadow
+   .btn--sidings uses elsewhere) so it keeps the same shadow weight
+   as "More about me" right next to it. Scoped to this one button
+   rather than changed on .btn--sidings itself, since the About
+   page's "See the event archive" button isn't part of this
+   experiment. */
+.btn--sidings-solid{ background: var(--sidings); color: var(--sidings-ink); border-color: var(--ink); box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink); }
+.btn--sidings-solid:hover{ box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink); }
+/* On the black events-teaser section the keyline above reads oddly:
+   its outer "true footprint" layer is ink, which just disappears into
+   the section's own black background, leaving the paper layer with
+   no visible edge. Flip which layer is on top so the effect still
+   reads as a keyline here — a black shadow with a thin white outline,
+   rather than a white shadow with a (now-invisible) black one. */
+.events-teaser .btn--sidings-solid{ box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--ink), 4px 4px 0 0 var(--paper); }
+.events-teaser .btn--sidings-solid:hover{ box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--ink), 6px 6px 0 0 var(--paper); }
+
+/* =========================================================
+   TAGS / CATEGORY FLAGS
+   ========================================================= */
+.tag{
+  /* inline-flex + align-items:center, not inline-block: this tag
+     sits next to the taller .tag-chip pills in flex rows like
+     .category-band__tags (default align-items:stretch there), so
+     it gets stretched to match their height. inline-block text just
+     sits at the top of that extra space; inline-flex centers the
+     single line of text within it instead. */
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0.35em 0.6em;
+  border: var(--line-thin) solid var(--ink);
+}
+.tag--journalism{ background: var(--accent2); color: var(--accent2-ink); }
+.tag--essays{ background: var(--accent); color: var(--accent-ink); }
+.tag--creative{ background: var(--accent3); color: var(--accent3-ink); }
+.tag--sidings{ background: var(--sidings); color: var(--sidings-ink); }
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+.section-head{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: var(--line-thin) solid var(--ink);
+  padding-bottom: 0.9rem;
+  margin-bottom: 2rem;
+}
+.section-head h2{
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+}
+.section-head .view-all{
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.section-head .view-all:hover{ text-decoration: underline; }
+
+section{ padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+section + section{ border-top: var(--line-thick) solid var(--line); }
+
+/* =========================================================
+   WRITING GRID / CARDS
+   ========================================================= */
+.writing-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+/* Note: auto-fit (not a fixed column count) so a category with only
+   one or two pieces never leaves an empty grid cell exposing a gap. */
+
+.piece-card{
+  background: var(--paper);
+  border: var(--line-thin) solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--ink);
+}
+.piece-card__media{
+  /* Shorter than the original 4/3 so the "Latest" card itself sits
+     closer in height to the text-only intro column beside it —
+     less overall height for align-items: center (below) to balance. */
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-bottom: var(--line-thin) solid var(--ink);
+}
+.piece-card__media img{ width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+.piece-card:hover .piece-card__media img{ transform: scale(1.04); }
+
+.piece-card__body{
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex: 1;
+}
+.piece-card__meta{
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.piece-card__meta time{
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+.piece-card h3{
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 0.98;
+}
+.piece-card p{
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+.piece-card__read{
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-top: 0.6rem;
+}
+.piece-card__read::after{ content: " →"; }
+
+/* =========================================================
+   CATEGORY PAGE — FEATURED (MOST RECENT) PIECE
+   Cover left, everything else to the right — the same
+   tag+date/title/dek/read a .piece-card carries, just laid out as
+   one wide row instead of a stacked card. Mirrors the homepage's
+   own "Latest" card (same eyebrow, same meta line) scaled up to be
+   the prominent lead-in for the category page it sits on, rather
+   than a new, unrelated component. Sits above the regular
+   3-across .writing-grid, which only gets whatever's left once the
+   latest piece is pulled out here (see js/page-category.js).
+   ========================================================= */
+.category-feature{
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  /* Both columns size to their own content (not stretched to match
+     each other) — "Read" now sits right under the dek with its own
+     margin, rather than being pushed down to the image's bottom
+     edge, so there's no need to stretch the body column to the
+     image's height any more. */
+  align-items: start;
+  text-decoration: none;
+  color: var(--ink);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: var(--line-thin) solid var(--ink);
+}
+@media (max-width: 760px){
+  .category-feature{ grid-template-columns: 1fr; }
+}
+.category-feature__kicker{ margin-bottom: 0.7rem; color: var(--ink-soft); }
+/* A second, invisible copy of the kicker sits at the top of
+   .category-feature__body (see featureCardHTML in js/main.js) —
+   same class, so it takes up exactly the same space as the real
+   "Latest"/"Spotlight Feature" label beside it, keeping the
+   tag/date/title/dek lined up with the top of the cover image
+   itself, rather than the top of the grid row, no matter how long
+   the dek ends up being once real copy replaces the placeholder.
+   Both columns use the same flex gap (below) to space their kicker
+   from what follows it, so the kicker's own margin-bottom would
+   double up that spacing — turned off on both here, scoped to just
+   these two spots so the standalone "More recent" kicker above the
+   grid (not part of this flex pairing) keeps its own margin. */
+.category-feature__media-col > .category-feature__kicker,
+.category-feature__body > .category-feature__kicker{ margin-bottom: 0; }
+.category-feature__kicker--ghost{ visibility: hidden; }
+.category-feature__media-col{
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* The "More recent" label above each category page's grid — same
+   .category-feature__kicker styling as "Latest" above the feature,
+   so the two read as a matched pair, echoing the homepage's own
+   "Latest" / "More recent" labels. Hidden along with its grid when
+   there's nothing left to show once the feature piece is pulled out. */
+.writing-grid__more-wrap.is-empty{ display: none; }
+.category-feature__media{
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: var(--line-thin) solid var(--ink);
+}
+.category-feature__media img{ width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+.category-feature__media:hover img{ transform: scale(1.04); }
+.category-feature__body{
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+/* Wraps title + subtitle + dek as one clickable block — deliberately
+   NOT the whole .category-feature (see featureCardHTML in
+   js/main.js): the meta row above it (tag/date) stays outside any
+   link, and "Read" below it (see .category-feature__read) is its
+   own separate link too, so it can sit flush with the image's
+   bottom edge instead of tucked directly under the dek — cover
+   image, text and "Read" are the three clickable zones, matching
+   how it's actually used. */
+.category-feature__text-link{
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.category-feature__meta{
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.category-feature__meta time{
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+.category-feature__title{
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  line-height: 0.98;
+  margin-bottom: 0.3rem;
+}
+.category-feature__subtitle{
+  /* A scaled-up, semi-bold cut of the body font (Inter) rather than
+     italic Fraunces (Lyric's own signature elsewhere) or a second
+     weight of the title's Big Shoulders — that second option read
+     too much like a wrapped/broken headline sitting directly under
+     the real one, rather than a distinct subtitle tier. Semibold
+     Inter is legible at a glance and reads as its own step between
+     the bold condensed title and the lighter serif dek. */
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 600;
+  /* Sits strictly between the title (min 1.8rem) and the byline/dek
+     (--body, max 1.15rem) at every viewport width — pulled down
+     from clamp(1.2rem, 2.4vw, 1.45rem) so it reads closer to the
+     dek in scale, while keeping a clear, consistent gap above it. */
+  font-size: clamp(1.05rem, 1.7vw, 1.28rem);
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 0.7rem;
+}
+.category-feature__dek{
+  color: var(--ink-soft);
+  font-size: var(--body);
+  line-height: 1.6;
+  max-width: 52ch;
+}
+/* Styled like the hero buttons found in each homepage category band
+   (.category-band__link--epic/dramatic/lyric) — boxed, mono,
+   uppercase, category-coloured fill, and that same two-layer "pop"
+   shadow (a paper/white layer under a thin ink keyline) rather than
+   a plain solid ink shadow — so the one actionable word in the card
+   reads as clearly clickable as any other button on the site, in
+   the same visual language. It's its own separate link (see
+   featureCardHTML in js/main.js), a sibling of .category-feature__
+   text-link rather than nested inside it, so it can carry its own
+   generous top margin rather than the tighter spacing between the
+   title/subtitle/dek lines above it. align-self:flex-start keeps it
+   sized to its own content instead of stretching full-width, which
+   is what .category-feature__body's flex children do by default.
+   The 0.9rem flex gap plus this 0.5rem margin add up to the same
+   1.4rem breathing room as .category-band__link's margin-top on the
+   homepage — enough not to read as cramped against the button below
+   it, without pushing all the way down to the image's bottom edge. */
+.category-feature__read{
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.85em 1.3em;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink);
+  transform: translate(0,0);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.category-feature__read:hover{
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink);
+}
+/* Explicit margin rather than a leading space in the generated
+   content — inside this button's own padding a plain " →" reads too
+   tight, unlike the same arrow following plain text elsewhere. */
+.category-feature__read::after{ content: "→"; margin-left: 0.45em; }
+.category-feature__read.tag--essays{ background: var(--accent); color: var(--accent-ink); }
+.category-feature__read.tag--journalism{ background: var(--accent2); color: var(--accent2-ink); }
+.category-feature__read.tag--creative{ background: var(--accent3); color: var(--accent3-ink); }
+
+/* ---------- Filter bar ---------- */
+.filter-bar{
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.filter-btn{
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.6em 1em;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+}
+.filter-btn[aria-pressed="true"]{
+  background: var(--ink);
+  color: var(--paper);
+}
+.filter-btn:hover:not([aria-pressed="true"]){
+  background: var(--paper-alt);
+}
+
+/* =========================================================
+   LYRIC — "well – assembled" calendar showcase
+   Stands in for the usual .category-feature "latest piece"
+   block on lyric.html only: the collection's five sections
+   (Thursday through Monday — data.writing entries carrying
+   collection: "well-assembled") show as calendar-style day
+   tiles instead of one big feature. Same subdivider treatment
+   underneath (border-bottom + matching padding/margin) as
+   .category-feature uses on Dramatic/Epic, so the plain
+   .writing-grid of other Lyric pieces below lines up the
+   same way it does on those two pages.
+   ========================================================= */
+.wa-showcase{
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: var(--line-thin) solid var(--ink);
+}
+.wa-showcase__kicker{ color: var(--ink-soft); margin-bottom: 0.6rem; }
+.wa-showcase__title{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 0.15rem;
+}
+.wa-showcase__subtitle{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.6rem;
+}
+.wa-showcase__intro{
+  color: var(--ink-soft);
+  max-width: 62ch;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Two pull-quotes of praise (from the dissertation examiners'
+   feedback) — reuses the same colour-spine language as the
+   Background bios on the homepage (a solid left border in a
+   category accent colour) so the treatment feels like an
+   established part of the site's vocabulary rather than a new
+   one-off. The oversized opening quotation mark echoes the drop
+   cap that already opens every reading page — same font, same
+   idea, different scale. */
+.wa-praise{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  margin-bottom: 2.2rem;
+}
+@media (max-width: 700px){
+  .wa-praise{ grid-template-columns: 1fr; }
+}
+.wa-praise__quote{
+  position: relative;
+  margin: 0;
+  padding-left: 1.4rem;
+  border-left: var(--line-thick) solid var(--accent3);
+}
+.wa-praise__mark{
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.6rem;
+  line-height: 0.6;
+  color: var(--accent3);
+  margin-bottom: 0.5rem;
+}
+.wa-praise__quote p{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+}
+.wa-praise__quote cite{
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+.wa-praise__quote cite::before{ content: "— "; }
+.wa-calendar{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 860px){
+  .wa-calendar{ grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px){
+  .wa-calendar{ grid-template-columns: repeat(2, 1fr); }
+}
+/* "Parsing My Poetry" (the Epic critical reflection on the
+   collection) isn't a day of the five-day calendar, so rather than
+   crowding or relabelling one of the five tiles, it's rendered as the
+   grid's own 6th/last child (js/page-lyric.js) and spans every column
+   here so it still reads as its own full-width line below the tiles
+   — same as the old standalone markup, and unchanged at the 3- and
+   5-column widths below. margin-top makes up the difference between
+   the grid's own 1rem row-gap (already providing part of the space
+   above it) and the 1.8rem gap the old standalone block had. Same
+   reading__more hero-button treatment the day-pages themselves use
+   for this exact link (see .reading__footer in js/page-piece.js),
+   kept in Lyric's own gold rather than Epic's orange for visual
+   consistency with the rest of this page, even though the piece it
+   links to lives in Epic. */
+.wa-calendar__coda{
+  grid-column: 1 / -1;
+  margin-top: 0.8rem;
+  /* Grid items stretch to fill their track by default — fine at the
+     2-column mobile width (below) where that track is a single
+     narrow cell, but at the 3-/5-column widths this spans every
+     column, so stretch would also blow it up to the full page width.
+     justify-self:start keeps it content-sized here, same as the
+     original standalone button. */
+  justify-self: start;
+}
+/* Below 560px the calendar drops to 2 columns, and 5 day tiles in 2
+   columns always leave one empty cell in the last row, beside
+   Monday. Letting the coda stop spanning here drops it into that
+   leftover cell via normal grid auto-placement (no span means it just
+   takes the next slot) instead of its own full-width row — filling
+   the gap rather than leaving it empty. Dropping justify-self back to
+   the grid default (stretch) here fills that cell to match Monday's
+   width, and the smaller type lets the full label wrap across a
+   couple of lines rather than overflowing the narrow cell. */
+@media (max-width: 560px){
+  .wa-calendar__coda{
+    grid-column: auto;
+    margin-top: 0;
+    justify-self: stretch;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+    font-size: 0.6rem;
+    line-height: 1.4;
+    padding: 0.7em 0.5em;
+  }
+}
+.wa-day{
+  display: flex;
+  flex-direction: column;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: var(--shadow-pop-sm);
+  transform: translate(0,0);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.wa-day:hover{
+  transform: translate(-3px,-3px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.wa-day__band{
+  background: var(--accent3);
+  color: var(--accent3-ink);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.5rem 0.4rem;
+  border-bottom: var(--line-thin) solid var(--ink);
+}
+.wa-day__weekday{
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  text-align: center;
+  padding: 1.1rem 0.5rem 0.3rem;
+}
+/* Each day is really a small suite of poems (see piece.poems in
+   js/data.js and calendarDayHTML in js/page-lyric.js), so the card
+   lists every title in that day's catalogue rather than a single
+   name — stacked, not run together, so a five-poem day (Friday)
+   reads as a list and not a run-on sentence. Grid rows stretch every
+   card in them to the tallest one by default, so a short day
+   (Monday's single poem) and a long one sit on the same baseline
+   rather than one looking cut short. */
+.wa-day__poems{
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: center;
+  padding: 0 0.8rem;
+  flex: 1;
+}
+.wa-day__poem{
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+.wa-day__read{
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.9rem 0 1rem;
+}
+.wa-day__read::after{ content: " →"; }
+
+/* =========================================================
+   LYRIC CATEGORY PAGE — differentiated card layout
+   Same card component, same type family as Dramatic/Epic —
+   but the grid breaks its symmetry, cover images crop to
+   circles instead of rectangles, and text centres and loosens
+   up, so Lyric reads like a page of verse rather than a feed.
+   Scoped to .writing-grid--lyric — not currently applied on
+   lyric.html (its plain grid now matches Dramatic/Epic to sit
+   under the "well – assembled" showcase above), kept here in
+   case that treatment is wanted again on a future grid.
+   ========================================================= */
+.writing-grid--lyric{
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  row-gap: 3rem;
+}
+.writing-grid--lyric .piece-card{
+  border: none;
+  background: transparent;
+  text-align: center;
+  align-items: center;
+}
+@media (min-width: 640px){
+  .writing-grid--lyric .piece-card:nth-child(2n){ margin-top: 3rem; }
+  .writing-grid--lyric .piece-card:nth-child(3n){ margin-top: 1.2rem; }
+}
+.writing-grid--lyric .piece-card__media{
+  width: 68%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: var(--line-thin) solid var(--ink);
+  margin-inline: auto;
+}
+.writing-grid--lyric .piece-card__body{ align-items: center; }
+.writing-grid--lyric .piece-card__meta{ justify-content: center; }
+.writing-grid--lyric .piece-card h3{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+.writing-grid--lyric .piece-card p{
+  line-height: 1.7;
+  max-width: 34ch;
+}
+
+/* Decorative background pattern behind each category page's hero —
+   a scatter of thin, unfilled outlines of that category's own shape
+   (square/triangle/circle), varied in size and rotation, spread
+   across the whole intro chunk as a quiet texture rather than one
+   big shape. Sits behind the text (z-index below .container, which
+   gets its own stacking context) at a low, uniform stroke weight via
+   `vector-effect: non-scaling-stroke` so it reads as one consistent
+   family across all three pages regardless of viewport width. */
+.dramatic-hero,
+.epic-hero,
+.lyric-hero{ position: relative; overflow: hidden; }
+.dramatic-hero .container,
+.epic-hero .container,
+.lyric-hero .container{ position: relative; z-index: 1; }
+.hero__pattern{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.dramatic-hero .hero__pattern{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
+.epic-hero .hero__pattern{ color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.lyric-hero .hero__pattern{ color: color-mix(in srgb, var(--accent3) 45%, transparent); }
+
+/* Contact page hero: same scattered-shape treatment as the Dramatic/
+   Epic/Lyric pages above, but combined into one background — squares,
+   triangles and circles side by side, each tinted to its own page's
+   colour (blue/orange-red/yellow) rather than picking just one. */
+.contact-hero{ position: relative; overflow: hidden; }
+.contact-hero .container{ position: relative; z-index: 1; }
+.contact-hero .hero__pattern .shape--dramatic{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
+.contact-hero .hero__pattern .shape--epic{ color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.contact-hero .hero__pattern .shape--lyric{ color: color-mix(in srgb, var(--accent3) 45%, transparent); }
+
+/* =========================================================
+   HOMEPAGE BACKGROUND SECTION
+   (its own full section, same weight as the old "Three kinds
+   of writing" header — content is placeholder until filled in)
+   ========================================================= */
+.section-head h2.background-title{
+  font-size: clamp(2.2rem, 5.8vw, 4.2rem);
+  line-height: 0.9;
+}
+/* The shared .section-head rule's title-to-rule gap (0.9rem) was
+   sized for a plain small-caps-height heading like "Events" — too
+   tight under this section's much taller display heading, which
+   left its descenders almost touching the line. Scoped to just
+   Background (not the shared .section-head class, so Events/About
+   are untouched) and matched to the Writings byline's own
+   title-to-rule gap just below, so the two read as one consistent
+   rhythm down the page rather than two different tightnesses. */
+#background .section-head{ padding-bottom: 2.4rem; }
+.background-block__lede{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  line-height: 1.3;
+  max-width: 44ch;
+  margin-bottom: 2rem;
+}
+.background-block__lede em{ color: var(--ink-soft); }
+/* Stacked rather than side-by-side: the bio copy runs full width,
+   then the skills grid sits below it. A side-by-side layout left a
+   lot of dead space next to the (much shorter) skills column, so
+   this reads more like one continuous block. */
+.background-block{
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 5vw, 3.5rem);
+}
+.background-block__bio{
+  font-size: var(--body);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  /* Runs the full container width now, matching the "Background"
+     heading and the skills grid below rather than stopping short. */
+  max-width: none;
+  /* The "spine" — a coloured rule down the left of each paragraph,
+     one colour per paragraph (see the --dramatic/--lyric/--sidings
+     modifiers below). line-thick rather than line-thin so it reads
+     as a deliberate accent, not a stray border; the ink-soft text
+     itself is untouched, so this adds colour without ever
+     competing with legibility. */
+  border-left: var(--line-thick) solid transparent;
+  padding-left: 1.1rem;
+}
+.background-block__bio + .background-block__bio{ margin-top: 1.2rem; }
+/* No colour override here — italics should read as the same colour
+   as the rest of the paragraph, just slanted, not darker. */
+.background-block__bio em{ font-style: italic; }
+.background-block .credit-list{ max-width: 62ch; margin-top: 0; }
+
+/* Each paragraph's spine colour follows what it's actually about —
+   editorial background, creative writing, journalism, then Sidings
+   — the same four colours used for the category flags and the
+   Sidings pill elsewhere on the site, so the tie-back reads as
+   intentional. */
+.background-block__bio--epic{ border-left-color: var(--accent); }
+.background-block__bio--dramatic{ border-left-color: var(--accent2); }
+.background-block__bio--lyric{ border-left-color: color-mix(in srgb, var(--accent3) 75%, var(--ink) 25%); }
+.background-block__bio--sidings{ border-left-color: var(--sidings); }
+
+/* Skills grid: one column per category, each with its own heading
+   and a running list beneath it — no section heading of its own,
+   since the three column headings already make its purpose clear. */
+.skill-rows{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+@media (max-width: 700px){
+  .skill-rows{ grid-template-columns: 1fr; }
+}
+.skill-row__heading{
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  padding-bottom: 0.5em;
+  margin-bottom: 0.7em;
+  border-bottom: var(--line-thin) solid var(--ink);
+}
+/* Chip-style pills rather than a plain running list — same boxed,
+   mono, uppercase language as the .tag-chip bank further down the
+   homepage (Writings), so a skill reads the same way a piece's tags
+   do. Wraps rather than stacking, so a column with more skills just
+   grows a second row instead of getting visually heavier than its
+   neighbours. */
+.skill-row__list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.skill-row__list li{
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.5em 0.8em;
+  border: var(--line-thin) solid var(--ink);
+  color: var(--ink-soft);
+}
+
+/* =========================================================
+   HOMEPAGE WRITING INTRO
+   (signals the shift from "about him" into the work itself —
+   title + single byline, then a thin rule. No bottom margin of
+   its own: the first .category-band's own top padding supplies
+   the rule-to-title gap, so it matches the thin rule between
+   Epic and Lyric exactly, rather than stacking extra space.)
+   ========================================================= */
+.writing-intro{
+  border-bottom: var(--line-thin) solid var(--ink);
+  padding-bottom: 2.4rem;
+}
+.writing-intro__title{
+  font-size: clamp(2.2rem, 5.8vw, 4.2rem);
+  line-height: 0.9;
+  margin-bottom: 1.3rem;
+}
+.writing-intro__byline{
+  font-size: var(--body);
+  color: var(--ink-soft);
+  max-width: 60ch;
+}
+
+/* =========================================================
+   HOMEPAGE CATEGORY BANDS
+   (Dramatic / Epic / Lyric — intro + latest piece, synthesised
+   from what used to be two separate homepage sections)
+   ========================================================= */
+.category-band{ padding-block: clamp(2.5rem, 6vw, 4rem); }
+.category-band + .category-band{ border-top: var(--line-thin) solid var(--ink); }
+/* The Lyric band's own bottom padding above is already a full
+   "between-bands" gap on its own — letting #writing's own full
+   section padding stack on top of it (below) would double it up
+   right where the oxblood boundary with Sidings follows, so it's
+   zeroed out here to match the normal gap used between
+   Dramatic/Epic/Lyric themselves. */
+#writing{ padding-bottom: 0; }
+
+.category-band__grid{
+  display: grid;
+  /* Latest card now sits first (left) in the markup, so its track
+     keeps the narrower 0.9fr it always had, and the intro column
+     (now second/right) keeps its wider 1.1fr — position swapped,
+     each column's own width unchanged. */
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  /* Stretch (the default) rather than center: the intro column now
+     composes itself top-to-bottom — title/copy/button at the top,
+     the more-recent links + tag bank at the bottom — so it needs
+     the full row height to work with, not just its own content
+     height. See .category-band__intro / __bottom below. */
+  align-items: stretch;
+}
+@media (max-width: 860px){
+  /* The unconditional gap above (clamp(2rem,5vw,4rem)) was tuned for
+     the desktop 2-column split — a single gap between the Latest
+     card and the intro column. On mobile, display:contents (below)
+     promotes title/desc/latest/more-wrap/link/bottom to six direct
+     grid items in one column, so that same gap value lands BETWEEN
+     EACH of them too, stacking on top of their own margins and
+     blowing out the vertical rhythm. Overriding it here to a small
+     mobile-only value fixes that without touching the desktop gap. */
+  .category-band__grid{ grid-template-columns: 1fr; gap: 0.3rem; }
+}
+
+/* Alternating-band variation — applied to every other category band
+   (currently Epic and Lyric) so the three intros don't all read the
+   same way down the page. Flips which column the Latest card and
+   intro copy sit in (intro now left/wider, Latest now right/
+   narrower) purely via order + matching column widths, so the two
+   cards' own widths are unaffected. The column-width swap is
+   desktop-only (min-width query, applied after the base two-column
+   rule so it wins there); the plain order rule below is unconditional
+   (so it still sets up the desktop left/right split) but is itself
+   overridden on mobile by the consolidated block further down, which
+   needs to come after this in the file to win the specificity tie
+   (both are two-class selectors on .category-band__latest). */
+.category-band__grid--reverse .category-band__latest{ order: 2; }
+.category-band__grid--reverse .category-band__intro{ order: 1; }
+@media (min-width: 861px){
+  .category-band__grid--reverse{ grid-template-columns: 1.1fr 0.9fr; }
+}
+
+.category-band__intro{
+  display: flex;
+  flex-direction: column;
+}
+/* Stacked single-column mobile layout reads title, then description,
+   then the Featured/Latest card, then "More recent"/"Browse all"/the
+   tag bank — the card sits inside that reading order rather than at
+   either end of it, regardless of which side of the desktop's
+   two-column grid each piece normally sits on. .category-band__intro's
+   own children aren't normally grid items (they're nested a level
+   deeper, inside the intro column) — display:contents here removes
+   that wrapper from the box tree so its children become direct grid
+   items alongside .category-band__latest, and each then gets its own
+   place in the single sequence via order. This has to come after both
+   the unconditional display:flex above and the unconditional --reverse
+   order rules further up (equal specificity in each case — the latest
+   matching rule in the file wins the tie), or one of those wins back
+   at this width and the reordering breaks for one grid variant. */
+@media (max-width: 860px){
+  .category-band__intro,
+  .category-band__grid--reverse .category-band__intro{ display: contents; }
+  .category-band__title,
+  .category-band__grid--reverse .category-band__title{ order: 1; margin-bottom: 0.8rem; }
+  .category-band__desc,
+  .category-band__grid--reverse .category-band__desc{ order: 2; margin-bottom: 0.7rem; }
+  .category-band__latest,
+  .category-band__grid--reverse .category-band__latest{ order: 3; }
+  .category-band__more-wrap,
+  .category-band__grid--reverse .category-band__more-wrap{ order: 4; }
+  .category-band__link,
+  .category-band__grid--reverse .category-band__link{
+    order: 5;
+    /* align-self (used above to keep this content-sized rather than
+       stretched, in the flex column it's normally laid out in)
+       governs the other axis once this is a direct grid item —
+       justify-self is grid's equivalent for the inline axis. */
+    justify-self: flex-start;
+    margin-top: 0.9rem;
+  }
+  .category-band__bottom,
+  .category-band__grid--reverse .category-band__bottom{ order: 6; padding-top: 1.5rem; }
+}
+
+.category-band__title{
+  font-family: var(--font-headline);
+  font-weight: 900;
+  /* Deliberately a step down from "Writings" above (and from
+     "Background") — D/E/L are subheadings within the Writings
+     chunk now, not co-equal chunk titles of their own. */
+  font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+  line-height: 0.9;
+  margin-bottom: 1.3rem;
+}
+.category-band__title--dramatic{ color: var(--accent2); }
+.category-band__title--epic{ color: var(--accent); }
+.category-band__title--lyric{ color: color-mix(in srgb, var(--accent3) 70%, var(--ink) 30%); }
+
+.category-band__desc{
+  color: var(--ink-soft);
+  max-width: 52ch;
+  font-size: var(--body);
+  margin-bottom: 1.1rem;
+}
+/* "Read the latest here" — href is set by js/page-home.js to
+   whatever the "Latest" card is currently showing. Same colour as
+   the rest of the sentence (inherits ink-soft) — the underline
+   alone is the cue that it's a link. */
+.category-band__desc-link{
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--paper-alt);
+  text-underline-offset: 3px;
+}
+.category-band__desc-link:hover{ text-decoration-color: var(--ink-soft); }
+
+/* .btn.btn--ghost — white fill, black text, black shadow, same as
+   the hero buttons. align-self is the fix for the width:
+   .category-band__intro / __bottom are flex columns (for the
+   top/bottom split), and flex columns stretch children to fill the
+   cross-axis by default — which was silently forcing this normally
+   content-sized inline-flex button to full column/row width. Sits
+   directly beneath "More recent" now, so it just needs a margin. */
+.category-band__link{ align-self: flex-start; margin-top: 1.4rem; }
+/* Solid category-colour fill — a hedge against the day the cover
+   placeholders become real photos and stop carrying any colour
+   identity of their own. Same treatment as .btn--solid / .btn
+   --sidings-solid in the Intro chunk: ink border, and the paper-fill
+   -plus-ink-keyline shadow (reads as a white shadow with a thin
+   black outline) rather than a plain black one — colour needs a
+   lighter shadow to still pop against it. Text pairs each accent
+   with its own -ink token, same as the piece-card category tags,
+   which is already proven legible (this is why Lyric uses plain
+   --accent3 here rather than the darkened mix the title/tag-only
+   version needed — dark text on a yellow fill reads fine; yellow
+   text on the paper page doesn't). */
+.category-band__link--dramatic{
+  background: var(--accent2);
+  color: var(--accent2-ink);
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink);
+}
+.category-band__link--dramatic:hover{ box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink); }
+.category-band__link--epic{
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink);
+}
+.category-band__link--epic:hover{ box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink); }
+.category-band__link--lyric{
+  background: var(--accent3);
+  color: var(--accent3-ink);
+  border-color: var(--ink);
+  box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink);
+}
+.category-band__link--lyric:hover{ box-shadow: 6px 6px 0 calc(-1 * var(--line-thin)) var(--paper), 6px 6px 0 0 var(--ink); }
+
+/* Bottom group — just the tag bank now — pushed all the way to the
+   bottom of the (now full-height) intro column via margin-top:
+   auto. That leftover height becomes the gap between it and the
+   title/copy/"more recent"/button above, rather than dead space.
+   On the single-column mobile layout the grid no longer stretches
+   the row, so auto collapses to nothing; the media query below
+   gives a fixed gap there instead. */
+.category-band__bottom{
+  margin-top: auto;
+  padding-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 860px){
+  .category-band__bottom{ margin-top: 0; }
+}
+
+/* A few more recent pieces, once the "Latest" one is pulled out —
+   sits right after the description now, in the button's old slot.
+   Stacked one on top of the other (not side by side — that read
+   oddly once Epic/Lyric titles ran long), newest first, each its
+   own small bordered box — a miniature of the "Latest" piece-card's
+   own border treatment, just without the image/meta. Hidden
+   entirely via .is-empty when a category has nothing left over. */
+.category-band__more-wrap{ margin-top: 0.3rem; }
+.category-band__more-wrap.is-empty{ display: none; }
+.category-band__more-label{ color: var(--ink-soft); margin-bottom: 0.6rem; }
+.category-band__more{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.category-band__more a{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  padding: 0.6em 0.9em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.category-band__more a:hover{ background: var(--paper-alt); }
+.category-band__more-title{ font-size: 0.88rem; line-height: 1.3; }
+/* Placeholder date, right-aligned — real dates once real pieces
+   replace these; mono to read as metadata rather than more title. */
+.category-band__more-date{
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+/* Tag bank — same boxed, mono, uppercase language as the hero
+   buttons, but static: no shadow, no hover lift, a <span> not an
+   <a>, and a softer ink-soft label to read as informational rather
+   than actionable. */
+.category-band__tags{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tag-chip{
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.5em 0.8em;
+  border: var(--line-thin) solid var(--ink);
+  color: var(--ink-soft);
+}
+
+.category-band__latest{ min-width: 0; }
+.category-band__latest .eyebrow{ margin-bottom: 0.7rem; color: var(--ink-soft); }
+.category-band__latest .piece-card{ border: var(--line-thin) solid var(--ink); }
+
+/* =========================================================
+   EVENTS TEASER (inverted band)
+   ========================================================= */
+/* Writings and the solid-black Sidings section below are direct
+   sibling <section>s, so the generic `section + section` rule
+   already draws a thick border-top between them — just recoloured
+   to oxblood here so the break reads as Sidings' own moment rather
+   than a plain ink section boundary. */
+#writing + .events-teaser{ border-top-color: var(--sidings); }
+
+.events-teaser{
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: var(--line-thick) solid var(--line);
+}
+.events-teaser .section-head{ border-bottom-color: var(--paper); }
+.events-teaser h2{ color: var(--paper); }
+.events-teaser p.lede{ color: color-mix(in srgb, var(--paper) 78%, transparent); max-width: 60ch; margin-top: 1.5rem; }
+.events-teaser p.lede + p.lede{ margin-top: 1rem; }
+
+.events-teaser__grid{
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+@media (max-width: 800px){
+  .events-teaser__grid{ grid-template-columns: 1fr; }
+  /* On the stacked mobile layout, lead with the placeholder visual
+     before the archive button that follows the bio/lede text —
+     matches the title-before-supporting-material ordering used
+     elsewhere on mobile, rather than the desktop's side-by-side
+     reading order. */
+  .events-teaser__grid > .sidings-placeholder{ order: 1; }
+  .events-teaser__grid > div:first-child{ order: 2; }
+}
+.events-teaser__wordmark{
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 7vw, 4.6rem);
+  line-height: 0.9;
+}
+.events-teaser__wordmark .to{ color: var(--sidings); }
+
+/* No real event photos yet — a dashed placeholder in the same slot
+   the carousel used to fill, standing in for the new logo (in
+   commission) rather than reusing old People Carrier imagery, which
+   would read as backward-looking on a rebrand. */
+.sidings-placeholder{
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  text-align: center;
+  padding: 2rem;
+  border: var(--line-thin) dashed color-mix(in srgb, var(--paper) 45%, transparent);
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0 20px,
+    color-mix(in srgb, var(--paper) 5%, transparent) 20px 40px
+  );
+}
+.sidings-placeholder__tagline{
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--paper);
+}
+/* Same placeholder, reused inside an event block on events.html —
+   but that whole page is already dark-themed (body[data-theme="dark"]
+   flips --paper/--ink), so the --paper-based colours above would sit
+   dark-on-dark there. Re-point to --ink, which is the light colour in
+   that theme, so it stays legible without duplicating the component. */
+.event-block__media .sidings-placeholder{
+  border-color: color-mix(in srgb, var(--ink) 45%, transparent);
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0 20px,
+    color-mix(in srgb, var(--ink) 5%, transparent) 20px 40px
+  );
+}
+.event-block__media .sidings-placeholder__tagline{ color: var(--ink); }
+
+/* =========================================================
+   EVENT DETAIL BLOCKS (events.html)
+   Split layout, echoing the mockup: media on the left, event
+   info on the right, separated by a red rule — dashed red
+   rules (rather than the plain ink ones used elsewhere) divide
+   one event from the next, reinforcing Sidings' own red as the
+   thread running through this half of the site.
+   ========================================================= */
+.event-block{
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+.event-block + .event-block{ border-top: 2px dashed var(--sidings); }
+.event-block__grid{
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: start;
+}
+@media (max-width: 860px){
+  .event-block__grid{ grid-template-columns: 1fr; }
+  /* Title/meta/blurb before the carousel on the stacked mobile
+     layout — same title-before-supporting-material ordering as the
+     homepage's category bands — so the divider rule moves from
+     above .event-block__info (which used to follow the media) to
+     above .event-block__media (which now follows the info instead). */
+  .event-block__info{ order: 1; border-left: none !important; padding-left: 0 !important; }
+  .event-block__media{ order: 2; border-top: 2px solid var(--sidings); padding-top: 1.5rem; }
+}
+.event-block__info{
+  border-left: 2px solid var(--sidings);
+  padding-left: clamp(1.5rem, 3vw, 2.5rem);
+}
+.event-block__eyebrow{ margin-bottom: 0.6rem; }
+.event-block__eyebrow--sidings{ color: var(--sidings); }
+/* Was --accent3 (Lyric's yellow) — People Carrier isn't a fourth
+   writing category, it's Sidings' former name, so it borrows from
+   --sidings itself rather than a colour that belongs to Lyric: a
+   muted, dustier version of the same oxblood, reading as "the
+   earlier chapter" of the same brand rather than an unrelated hue. */
+.event-block__eyebrow--pc{ color: color-mix(in srgb, var(--sidings) 55%, var(--ink) 45%); }
+.event-block__head h2{
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  margin-bottom: 0.8rem;
+}
+.event-block__meta{
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+/* Date / Venue / Lineup — used on all four events in place of the
+   single-line meta above, once there's a lineup to list. Same
+   typeface as that meta line (headline font, same letter-spacing),
+   just a size up, so it reads as an upgrade of that text rather
+   than a new voice on the page. */
+.event-block__details{
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.2rem;
+}
+.event-block__detail{
+  display: flex;
+  gap: 0.4em;
+  font-family: var(--font-headline);
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+}
+.event-block__detail dt{
+  font-weight: 700;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.event-block__detail dt::after{ content: ":"; }
+.event-block__detail dd{ margin: 0; }
+.event-block__blurb{ color: var(--ink-soft); margin-bottom: 1.8rem; }
+
+/* ---------- Tabs (Photos / Video / Artwork) ---------- */
+.media-tabs{
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.media-tab{
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.55em 1em;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+}
+.media-tab[aria-selected="true"]{ background: var(--sidings); color: var(--sidings-ink); }
+@media (max-width: 720px){
+  /* Same unstyled-<button> default-colour quirk as .nav-toggle above
+     — the unselected tab's text picks up the mobile browser's own
+     light-blue button colour rather than the page's ink when nothing
+     sets it explicitly. */
+  .media-tab[aria-selected="false"]{ color: var(--ink); }
+}
+
+/* =========================================================
+   CAROUSEL
+   ========================================================= */
+.carousel{
+  position: relative;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper-alt);
+}
+.carousel__viewport{
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.carousel__track{
+  display: flex;
+  transition: transform 0.4s cubic-bezier(.65,.05,.36,1);
+}
+.carousel__slide{
+  flex: 0 0 100%;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+}
+.carousel__slide img,
+.carousel__slide video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Artwork (posters/flyers) tends to be portrait, unlike the landscape
+   photos/video that share this same 16:10 box. Rather than cropping
+   a poster to fill that frame, or giving Artwork its own taller box
+   (which made the whole component change size switching tabs), tile
+   the image edge-to-edge across the SAME 16:10 box: full height,
+   natural proportions, repeating as many times as fit. Nothing is
+   cropped within a single copy, nothing is letterboxed, and the box
+   stays identical across all three tabs. Set via buildCarousel's
+   `tiled` option in js/carousel.js, which swaps the <img> for a
+   background-image on the slide itself so it can repeat. */
+.carousel__slide--tiled{
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: auto 100%;
+}
+.carousel__slide figcaption{
+  position: absolute;
+  left: 0; bottom: 0; right: 0;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  padding: 0.6em 0.9em;
+}
+.carousel__controls{
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding-inline: 0.7rem;
+  pointer-events: none;
+}
+.carousel__btn{
+  pointer-events: auto;
+  width: 2.6rem; height: 2.6rem;
+  background: var(--paper);
+  border: var(--line-thin) solid var(--ink);
+  /* Same unstyled-<button> quirk as .nav-toggle / .media-tab above —
+     without an explicit colour, mobile browsers paint the arrow glyph
+     with their own default button-text blue instead of inheriting the
+     page's ink. Pinning it here makes the resting state read exactly
+     as it already does on desktop (paper bg / ink arrow — white-on-
+     black once the Sidings dark theme swaps those tokens), with the
+     existing :hover below carrying the oxblood "selected" state
+     through on both. */
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-pop-sm);
+}
+.carousel__btn:hover{ background: var(--sidings); color: var(--sidings-ink); }
+/* Overlaid inside the 16:10 box (never a separate row below it) so
+   the box is exactly the same height on every tab, whether there's
+   1 item (no dots at all) or 5 (Photos) — nothing pushes the
+   divider below the event block around. Sits above the figcaption
+   bar, in its own small dark pill so it reads on any image. */
+.carousel__dots{
+  position: absolute;
+  left: 50%;
+  bottom: 2.3rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+  border-radius: 999px;
+  z-index: 2;
+}
+.carousel__dot{
+  width: 0.4rem; height: 0.4rem;
+  border-radius: 50%;
+  border: none;
+  background: color-mix(in srgb, var(--paper) 45%, transparent);
+  padding: 0;
+}
+.carousel__dot[aria-current="true"]{ background: var(--paper); }
+
+/* =========================================================
+   READING TEMPLATE (piece.html)
+   ========================================================= */
+.reading{
+  /* Widened from 72ch (≈680px, noticeably narrower than the site's
+     1220px .container it sits inside — plenty of unused margin on
+     a normal desktop screen). 840px still keeps body-copy line
+     length within the comfortable reading range (a touch over 80
+     characters at the body font's actual size, rather than the
+     90+ a full-container width would force), just less cramped
+     into the page's middle third. */
+  max-width: 840px;
+  margin-inline: auto;
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  position: relative;
+  /* Text-size control (see .reading-tools__size-btn): a single
+     multiplier scoped to this element, so toggling it only ever
+     rescales the byline and body copy below — title, subtitle and
+     dek stay put regardless of which size a reader picks. */
+  --size-mult: 1;
+}
+.reading[data-text-size="s"]{ --size-mult: 0.88; }
+.reading[data-text-size="l"]{ --size-mult: 1.18; }
+.reading__meta{
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+/* Category indicator here reads as a plain colour-coded label
+   rather than a boxed flag, echoing the mockup's "DRAMATIC" over
+   a piece headline — the boxed .tag stays for card grids and
+   event listings, where it needs to read at a glance among
+   other chrome. */
+.reading__meta .tag{
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: calc(0.95rem * var(--size-mult));
+  letter-spacing: 0.02em;
+}
+/* The date/outlet eyebrows in the byline scale with the same
+   --size-mult as the rest of .reading__meta — overrides the plain
+   .eyebrow rule elsewhere on the site, which stays fixed-size. */
+.reading__meta .eyebrow{ font-size: calc(0.72rem * var(--size-mult)); }
+.reading__meta .tag.tag--journalism{ color: var(--accent2); }
+.reading__meta .tag.tag--essays{ color: var(--accent); }
+.reading__meta .tag.tag--creative{ color: color-mix(in srgb, var(--accent3) 65%, var(--ink) 35%); }
+.reading h1{
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  /* Bumped up from 0.5rem — the subtitle directly beneath was
+     sitting close enough to read as cramped against the title. */
+  margin-bottom: 0.9rem;
+}
+.reading__subtitle{
+  /* Matches .category-feature__subtitle's reasoning — a scaled-up
+     semibold cut of the body font (Inter), not italic Fraunces
+     (Lyric's own signature) and not a second weight of the title's
+     Big Shoulders, which just read as a wrapped/broken headline. */
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 600;
+  /* Sits strictly between the title (min 2rem) and the byline/dek
+     (fixed 1.2rem) at every viewport width — pulled down from
+     clamp(1.35rem, 3vw, 1.85rem) so it reads closer to the dek in
+     scale, while keeping a clear, consistent gap above it. */
+  font-size: clamp(1.3rem, 1.8vw, 1.55rem);
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 1.1rem;
+}
+.reading__dek{
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: 2rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+/* First-publication credit (see piece.sourceNote in js/data.js — the
+   three earliest Dramatic pieces, syndicated from The Gryphon). Sits
+   right under the dek as a small, plain note rather than inheriting
+   the dek's own italics — the publication name is the only word
+   that needs emphasis (via an <em> in the data itself), so the line
+   around it stays upright rather than setting italics inside
+   italics. The link is underlined explicitly, matching
+   .category-band__desc-link's "Read the latest here" treatment,
+   since links carry no underline by default elsewhere on the site. */
+.reading__source-note{
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-top: -1.2rem;
+  margin-bottom: 2rem;
+}
+.reading__source-note a{
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--ink-soft);
+  text-underline-offset: 3px;
+}
+.reading__source-note a:hover{ text-decoration-color: var(--ink); }
+/* Forced to a landscape crop, same as every other cover treatment
+   on the site (.piece-card__media, .category-feature__media both
+   use 3/2 + object-fit:cover) — left unconstrained, a portrait
+   source image (the placeholder SVGs are all 900×1100) rendered at
+   its natural aspect ratio here, well over 800px tall at this
+   column's width, dwarfing the title and text above it. */
+/* Wraps the cover image so an optional credit (below) can sit
+   against its own bounds, the same pattern as .reading__media-frame
+   for in-body photos. Most covers are Joseph's own illustrations and
+   carry no credit; .reading__media-credit itself is unchanged. */
+.reading__cover-frame{
+  position: relative;
+  display: block;
+  margin-bottom: 2rem;
+}
+.reading__cover{
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border: var(--line-thin) solid var(--ink);
+  margin-bottom: 0;
+}
+/* A literary epigraph — the line a piece takes its title from, or
+   sets its themes against (see "Nowhere", w4) — sits as front matter
+   between the dek and the body itself. Only Epic/essays pieces carry
+   one (w4, w8), so this reuses the same colour-spine-plus-quotation-
+   mark language as the essay's own in-body set-off quotations
+   (.reading__body blockquote, below) and the "well – assembled"
+   epigraphs — left-aligned, category-tinted spine, oversized mark —
+   for one consistent way of presenting a quoted epigraph site-wide,
+   rather than a bespoke right-set treatment found only here. */
+.reading__epigraph{
+  margin: 0 0 2.4rem;
+  padding-left: 1.5em;
+  border-left: var(--line-thick) solid var(--ink-soft);
+}
+.reading__epigraph::before{
+  content: "\201C";
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 0.6;
+  margin-bottom: 0.3rem;
+  color: var(--ink-soft);
+}
+.reading.cat--essays .reading__epigraph{ border-left-color: var(--accent); }
+.reading.cat--essays .reading__epigraph::before{ color: var(--accent); }
+.reading__epigraph p{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 30rem;
+  margin: 0 0 0.7rem;
+}
+.reading__epigraph cite{
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+.reading__epigraph cite::before{ content: "— "; }
+@media (max-width: 560px){
+  .reading__epigraph p{ max-width: none; }
+}
+
+/* ---------- Article tools (author / text size / share) ----------
+   Rendered once by page-piece.js as the first thing inside
+   .reading, so it also reads sensibly with CSS off. Two layouts
+   from that one markup:
+   - Narrow down to ~1279px: a plain horizontal bar in normal flow,
+     sitting above the title (the page's own margin isn't wide
+     enough to hold anything beside the column at these widths).
+   - 1280px and up, where .reading's centred 840px column always
+     leaves at least ~230px clear on each side: pulled out of flow
+     and fixed in that left margin instead, so it stays in view as
+     the reader scrolls rather than being left behind above the
+     title. */
+.reading-tools{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.6rem 1.8rem;
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.4rem;
+  border-bottom: var(--line-thin) solid var(--ink);
+}
+.reading-tools__group{
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.reading-tools__label{
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.reading-tools__author{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+/* Journalism-only: the publication date gets pulled out of the small
+   .reading__meta row entirely (see page-piece.js) and shown here
+   instead, as the first group in the tools rail — sized and weighted
+   to read as the piece's most prominent piece of metadata, since a
+   reported story's date matters more than an essay's or a poem's,
+   and dropping it from .reading__meta also frees that row for the
+   longer run of tag chips a news piece tends to carry. */
+.reading-tools__pubdate{
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--accent2);
+}
+.reading-tools__size-row{
+  display: flex;
+  gap: 0.4rem;
+}
+.reading-tools__size-btn{
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.reading-tools__size-btn:hover{ transform: translate(-1px,-1px); box-shadow: 2px 2px 0 var(--ink); }
+.reading-tools__size-btn[aria-pressed="true"]{
+  background: var(--ink);
+  color: var(--paper);
+}
+.reading-tools__share-row{
+  display: flex;
+  gap: 0.4rem;
+}
+.reading-tools__icon-btn{
+  width: 1.9rem;
+  height: 1.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.reading-tools__icon-btn svg{ width: 1rem; height: 1rem; }
+.reading-tools__icon-btn:hover{ transform: translate(-1px,-1px); box-shadow: 2px 2px 0 var(--ink); }
+/* Copy-link's brief "done" state — swaps in a checkmark rather than
+   relying on a tooltip, so the feedback survives on touch devices
+   with no hover state to reveal one. */
+.reading-tools__icon-btn.is-copied{ background: var(--ink); color: var(--paper); }
+.reading-tools__icon-btn.is-copied svg{ display: none; }
+.reading-tools__icon-btn.is-copied::after{
+  content: "✓";
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+@media (min-width: 1280px){
+  /* .reading is always exactly 840px wide and centred on the
+     viewport at this breakpoint (.container has long since hit its
+     own 1220px cap), so the rail's position is worked out from the
+     viewport's own centre rather than anything to do with
+     .reading's normal-flow position — half the column (420px) plus
+     a fixed rail width and gap, landing comfortably inside the
+     ~230px+ margin that's guaranteed to exist by 1280px. */
+  .reading-tools{
+    position: fixed;
+    top: 9rem;
+    left: calc(50vw - 420px - 28px - 148px);
+    width: 148px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .reading-tools__group{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    width: 100%;
+    padding-bottom: 1.1rem;
+    border-bottom: var(--line-thin) solid var(--ink);
+  }
+  .reading-tools__group:last-child{ border-bottom: none; padding-bottom: 0; }
+}
+.reading__body{
+  font-size: calc(1.08rem * var(--size-mult));
+  line-height: 1.75;
+}
+.reading__body p{ margin-bottom: 1.3em; }
+/* In-body section headings — used sparingly, to break a long essay's
+   argument into its natural movements (see Milton's essay, the first
+   piece long enough to need them). Colour-matched to category, same
+   as the blockquote below, so the two read as part of one system;
+   scales with the reader's chosen text size since it's part of the
+   running body copy, unlike the fixed-size title/subtitle above it. */
+.reading__body h2.reading__section{
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: calc(1.5rem * var(--size-mult));
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 3rem 0 1.1rem;
+}
+.reading.cat--essays .reading__body h2.reading__section{ color: var(--accent); }
+.reading.cat--journalism .reading__body h2.reading__section{ color: var(--accent2); }
+.reading.cat--creative .reading__body h2.reading__section{ color: color-mix(in srgb, var(--accent3) 65%, var(--ink) 35%); }
+/* Set-off quotations within an essay — used sparingly, for a quote
+   worth pulling out of the running prose rather than folding inline.
+   Same colour-spine-plus-quotation-mark language as the "well –
+   assembled" praise quotes on the Lyric page (.wa-praise, above) —
+   colour-matched to whichever category the piece is in via the
+   tag class now carried on the article root (see page-piece.js) —
+   but the quote text itself stays at the essay's own italic/ink-soft
+   body treatment rather than adopting that quote's larger, bolder
+   font, which reads more like a title/pull-quote than a passage
+   folded into a running argument. The oversized mark sits on its own
+   line above the quote (a block-level ::before, not an absolutely-
+   positioned overlap) — the same stacked arrangement as .wa-praise's
+   mark-then-text, rather than the mark sitting beside/over the first
+   line as an earlier version of this component did. */
+.reading__body blockquote{
+  margin: 0 0 1.3em;
+  padding-left: 1.5em;
+  border-left: var(--line-thick) solid var(--ink-soft);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.reading__body blockquote::before{
+  content: "\201C";
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 0.6;
+  margin-bottom: 0.3rem;
+  color: var(--ink-soft);
+}
+.reading.cat--essays .reading__body blockquote{ border-left-color: var(--accent); }
+.reading.cat--essays .reading__body blockquote::before{ color: var(--accent); }
+.reading.cat--journalism .reading__body blockquote{ border-left-color: var(--accent2); }
+.reading.cat--journalism .reading__body blockquote::before{ color: var(--accent2); }
+.reading.cat--creative .reading__body blockquote{ border-left-color: var(--accent3); }
+.reading.cat--creative .reading__body blockquote::before{ color: var(--accent3); }
+.reading__body blockquote p{ margin-bottom: 0.6em; }
+.reading__body blockquote p:last-child{ margin-bottom: 0; }
+/* A literary epigraph quoted mid-piece (see "well – assembled"'s
+   per-day vignettes, each one often set off by a few lines from
+   Yeats, Gray, Virgil, Ashbery or Macfarlane) reuses this same
+   blockquote rather than a new component, but needs its own
+   citation line — same small-caps/mono treatment as the piece-level
+   .reading__epigraph cite above, just nested instead. */
+.reading__body blockquote cite{
+  display: block;
+  margin-top: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+.reading__body blockquote cite::before{ content: "— "; }
+/* Footnote markers inline in the essay — small, in-accent, so
+   they're easy to spot without disrupting the reading rhythm. */
+.reading__body sup{ font-size: 0.68em; line-height: 0; }
+.reading__body sup a{
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0 0.05em;
+}
+.reading__body sup a:hover,
+.reading__body sup a:focus-visible{ text-decoration: underline; }
+/* Briefly flashes whichever reference point a reader just jumped
+   back to, via the "back to text" backlink below — pure CSS
+   (:target), so a click never drops them into a wall of text with
+   no sense of where they landed. */
+.reading__body sup a:target{
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 2px;
+}
+
+/* ---------- In-body photos (see js/page-piece.js's mediaByIndex) ----------
+   A placeholder box standing in for a real <img> — same diagonal-
+   stripe-in-the-category-colour language as the cover placeholders
+   (images/writing/*.svg), just built in CSS rather than as its own
+   SVG per photo, since there isn't a fixed number of these per
+   piece. The small italicised line below each box is its caption.
+
+   Standalone figures (a single photo, not part of a multi-image
+   group) are capped narrower than the full reading column — a photo
+   doesn't need to fill the measure the way body text does — via
+   .reading__media--standalone below; grid figures (.reading__media
+   --grid-item, inside .reading__media-grid) stay full-width within
+   their own grid cell. */
+.reading__media{
+  margin: 2rem 0;
+}
+.reading__media--standalone{
+  max-width: 560px;
+  margin-inline: auto;
+}
+/* Widens a standalone figure past the ordinary 560px cap — for a
+   labelled chart or map (see .reading__media-img--diagram below),
+   which needs more room than a photo to keep its text legible.
+   Same specificity as .reading__media--standalone above, so it must
+   come after it in the stylesheet to win when both classes are on
+   the same figure. */
+.reading__media--wide{
+  max-width: 760px;
+}
+.reading__media-caption{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 0.7rem;
+}
+.reading__media-ph{
+  aspect-ratio: 3 / 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: var(--line-thin) solid var(--ink);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--ph-color) 0 20px,
+    color-mix(in srgb, var(--ink) 6%, var(--ph-color) 94%) 20px 28px
+  );
+}
+.reading__media-ph.tag--essays{ --ph-color: var(--accent); }
+.reading__media-ph.tag--journalism{ --ph-color: var(--accent2); }
+.reading__media-ph.tag--creative{ --ph-color: var(--accent3); }
+/* A real photo, once one exists for a given slot — same footprint
+   (aspect ratio + ink border) as the placeholder box it replaces, so
+   dropping a photo in later never reflows the piece around it. */
+.reading__media-img{
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border: var(--line-thin) solid var(--ink);
+}
+/* A chart, table or map (first used by "Network North", w7) needs
+   its full extent visible — cropping it to 3:2 via object-fit:cover
+   like a photo would cut off axis labels or place names — so this
+   modifier drops the fixed aspect ratio and switches to
+   object-fit:contain. Sits on a plain white mat regardless of the
+   page's own theme, since the source graphic was drawn on a white
+   background and would look like a mistake floating on the dark-
+   mode page background otherwise. */
+.reading__media-img--diagram{
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  padding: 1rem;
+}
+/* Wraps a real photo so its credit line (below) can be positioned
+   against the photo's own bounds rather than the figure as a whole —
+   the figure also holds the caption underneath, which the credit
+   must not shift or overlay. */
+.reading__media-frame{ position: relative; display: block; }
+/* Photo attribution — small and low-contrast on purpose, sitting
+   inside the photo's own bottom-right corner rather than reading as
+   a second caption. A translucent dark pill behind light text keeps
+   it legible over any photo without competing with the (italic,
+   full-contrast) caption below the frame. */
+.reading__media-credit{
+  position: absolute;
+  right: 0.45rem;
+  bottom: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(0, 0, 0, 0.22);
+  padding: 0.15em 0.5em;
+  border-radius: 2px;
+  pointer-events: none;
+}
+/* Category-colour second border — a thin ring in the piece's own
+   category colour, set OFF from the existing black border by a
+   paper-coloured gap rather than sitting flush against it, so the
+   two read as a small picture frame (mount + frame) rather than one
+   thick double-weight line. Two stacked box-shadows do the framing:
+   the first is the gap (drawn in the page's own background colour,
+   so it reads as empty space rather than a visible ring of its
+   own), the second is the actual coloured frame just beyond it.
+   Scoped ONLY to images/supplements *within* an article (the cover,
+   an in-body photo, and the still-unfilled placeholder box) — NOT
+   the cover wherever it's reused as a thumbnail elsewhere on the
+   site (piece-card / category-feature), which keep their plain ink
+   border untouched. */
+.reading__cover.tag--essays,
+.reading__media-ph.tag--essays,
+.reading__media-img.tag--essays{ box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--accent); }
+.reading__cover.tag--journalism,
+.reading__media-ph.tag--journalism,
+.reading__media-img.tag--journalism{ box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--accent2); }
+.reading__cover.tag--creative,
+.reading__media-ph.tag--creative,
+.reading__media-img.tag--creative{ box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--accent3); }
+.reading__media-ph__label{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+.reading__media-ph__sub{
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.75;
+}
+/* The four-photo group (ITPG's "two worlds is shifting" moment, and
+   any future piece using a multi-image "after") — two columns of
+   smaller figures rather than one standalone photo per figure. */
+.reading__media-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem 1rem;
+  margin: 2rem 0;
+}
+.reading__media-grid .reading__media{ margin: 0; }
+/* A second, tighter grid variant — three columns of small portrait
+   figures rather than the two-column landscape grid above (see PMP's
+   "narrative holes" sketches/diagrams group). Doubled from an initial
+   480px (roughly one standalone photo's footprint) to 960px per
+   Joseph's request — in practice that just removes the cap, since the
+   840px reading column is narrower than 960px, so the grid now fills
+   the full column width instead. Generous horizontal gap between
+   columns (figures are small, so they need the breathing room more
+   than they need to touch) but little vertical gap, since each
+   --tight grid holds a single row of three (see .reading__media-row
+   below) rather than the full 3x2 block. */
+.reading__media-grid--tight{
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+  max-width: 960px;
+  margin-inline: auto;
+}
+.reading__media-ph.reading__media--portrait,
+.reading__media-img.reading__media--portrait{
+  aspect-ratio: 3 / 4;
+}
+/* A vertical, phone-shot clip (see block.kind === "video" in
+   page-piece.js — first used for the Hyde Park bonfire piece's
+   resident-filmed footage) reads as its own distinct slot rather
+   than a wide photo: narrower and centred like .reading__media
+   --standalone, but capped tighter still so a 9:16 box doesn't
+   tower over the column, and boxed to a true portrait-video ratio
+   rather than the 3:4 photo-portrait crop above. */
+.reading__media--video{
+  max-width: 300px;
+}
+.reading__media-ph.reading__media--portrait-video,
+.reading__media-img.reading__media--portrait-video{
+  aspect-ratio: 9 / 16;
+}
+/* Wraps one row (a --tight grid of 3) plus its single shared caption
+   as one unit — six near-identical placeholders don't each need their
+   own label, so the caption sits once below the row instead of once
+   per figure. Overrides the plain grid's own margin so the row (not
+   the grid) controls the spacing between the two rows. */
+.reading__media-row{ margin: 1.6rem 0; }
+.reading__media-row .reading__media-grid--tight{ margin: 0 auto; }
+.reading__media-row .reading__media-caption{ margin-top: 0.6rem; }
+@media (max-width: 520px){
+  .reading__media-grid{ grid-template-columns: 1fr; }
+  .reading__media-grid--tight{ grid-template-columns: repeat(3, 1fr); gap: 0.8rem; max-width: 360px; }
+}
+
+/* ---------- Bibliography (endnotes, below the essay body) ----------
+   "Bibliography" itself is a plain section heading — not a link,
+   not clickable. The actual citation list sits behind its own
+   "References" tab underneath: a <details>/<summary> disclosure,
+   collapsed by default, so the page's scrollbar doesn't advertise a
+   long reference list to every reader, and only those who actually
+   want the sources go looking for them. This also solves the
+   in-text footnote links for free — clicking a <sup> marker (or
+   loading a link that points straight at one) is a same-page
+   navigation to that citation's #fnN, and per the HTML "reveal"
+   behaviour (Chrome/Edge 90+, Firefox 92+, Safari 16.4+) the browser
+   opens whichever ancestor <details> is currently closed before
+   jumping to it — no extra JS needed to keep that link working. */
+.reading__notes-section{
+  margin-top: 3rem;
+  padding-top: 1.6rem;
+  border-top: var(--line-thin) solid var(--ink);
+}
+.reading__notes-heading{
+  /* Matches the homepage's own section headings (e.g. "Events" —
+     .section-head h2) exactly, rather than a smaller custom size:
+     same Big Shoulders weight/tracking, same clamp(1.6rem, 3.4vw,
+     2.4rem) scale, so "Bibliography" reads as a section heading in
+     its own right rather than a lightweight label. */
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+.reading__notes-toggle{
+  /* Removes the default disclosure triangle (both the modern
+     ::marker route and the older -webkit-details-marker one) so the
+     custom +/– indicator below is the only one shown. */
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 0.6em 1em;
+  border: var(--line-thin) solid var(--ink);
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.reading__notes-toggle::-webkit-details-marker{ display: none; }
+.reading__notes-toggle::marker{ content: ""; }
+.reading__notes-toggle::after{ content: "+"; }
+.reading__notes[open] .reading__notes-toggle::after{ content: "\2212"; } /* minus sign */
+.reading__notes-toggle:hover,
+.reading__notes-toggle:focus-visible{ color: var(--ink); border-color: var(--accent); }
+.reading__notes[open] .reading__notes-toggle{
+  background: var(--ink);
+  color: var(--paper);
+}
+.reading__notes ol{
+  list-style: none;
+  counter-reset: fn;
+  padding: 0;
+  margin: 1.4rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.reading__notes li{
+  counter-increment: fn;
+  display: flex;
+  gap: 0.6em;
+  padding: 0.6em 0;
+  scroll-margin-top: 1.5rem;
+}
+.reading__notes li + li{ border-top: var(--line-thin) solid color-mix(in srgb, var(--ink) 15%, transparent); }
+.reading__notes li::before{
+  content: counter(fn) ".";
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 700;
+}
+.reading__notes li p{ margin: 0; flex: 1; }
+.reading__notes li:target{ background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.reading__notes-back{
+  color: var(--ink-soft);
+  text-decoration: none;
+  margin-left: 0.3em;
+  white-space: nowrap;
+}
+.reading__notes-back:hover,
+.reading__notes-back:focus-visible{ color: var(--accent); }
+.reading__body p:first-of-type::first-letter{
+  font-family: var(--font-display);
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.85;
+  padding-right: 0.08em;
+  font-weight: 700;
+  color: var(--accent);
+}
+/* Drop cap colour follows the same per-category accent as the
+   section headings and blockquotes above, rather than defaulting to
+   essays' orange for every piece. */
+.reading.cat--journalism .reading__body p:first-of-type::first-letter{ color: var(--accent2); }
+.reading.cat--creative .reading__body p:first-of-type::first-letter{ color: color-mix(in srgb, var(--accent3) 65%, var(--ink) 35%); }
+/* A quoted epigraph's own <p> is structurally first-of-type within
+   its <blockquote> (the blockquote's only child), so the base rule
+   above matches it too — "sentinel"/"ministry"/"haecceity"/
+   "flendysshe" (js/data.js) each open with one. An epigraph is a
+   quotation, not the piece's own opening line, so it reads oddly
+   oversized and coloured like authorial prose; this un-does the
+   float/size/colour for any blockquote's first paragraph, site-wide,
+   leaving it as plain inherited text and letting the drop cap fall
+   instead on the real opening paragraph that follows. The per-category
+   colour overrides just above (journalism/creative) are MORE specific
+   than this plain .reading__body blockquote rule (three classes vs.
+   two), so without their own matching override here they kept winning
+   the colour (though nothing else, since only colour is repeated
+   there) straight through "all: unset" — the drop cap's size/float
+   were gone but its tint remained. Repeating those two selectors
+   below, scoped the same way, gives this unset the matching
+   specificity it needs to actually win on colour too. */
+.reading__body blockquote p:first-of-type::first-letter,
+.reading.cat--journalism .reading__body blockquote p:first-of-type::first-letter,
+.reading.cat--creative .reading__body blockquote p:first-of-type::first-letter{
+  all: unset;
+}
+/* "well – assembled" (js/data.js, wa-thu etc.): each day is a small
+   suite of prose poems — ordinary flowing paragraphs, not verse with
+   its own meaningful line breaks — each wrapped in its own .wa-poem
+   div. Poems alternate which side of the column they snap to
+   (.wa-poem--left / --right) via width: fit-content + margin, same
+   trick as Manna's .poem above, so consecutive poems read as visually
+   distinct units rather than one continuous block, while each poem's
+   own text stays left-aligned (ragged right), never centred or
+   right-aligned. The width is additionally capped at a fixed MEASURE
+   IN EM — rather than the column's full 840px — so a poem reads as a
+   narrower, letter-like block instead of full-width prose; being em
+   (not px), that cap scales together with the reader's chosen text
+   size (--size-mult, below) instead of needing any JS to keep up with
+   it, and a short poem still shrinks to fit its own content exactly
+   as before, since fit-content only hits this cap when the content
+   would otherwise be wider than it. */
+.reading__body .wa-poem{
+  width: fit-content;
+  max-width: min(36em, 100%);
+}
+.reading__body .wa-poem--left{ margin-right: auto; }
+.reading__body .wa-poem--right{ margin-left: auto; }
+.reading__body .wa-poem + .wa-poem{ margin-top: 1rem; }
+/* A one-line italic epigraph ("after 'Adlestrop' by Edward Thomas",
+   "after 'The Lake Isle of Innisfree'...") sits as plain front matter
+   before a poem's real opening line, same role as the blockquoted
+   epigraphs above but too short to warrant a full blockquote of its
+   own. Marked up as a <div> rather than a <p> specifically so it
+   can't be p:first-of-type within its .wa-poem (a <div> never matches
+   a p-tag selector), which would otherwise put the drop cap on "after"
+   instead of the poem's actual first word — the true opening <p> is
+   then correctly first-of-type in its place. */
+.reading__body .wa-epigraph{
+  margin-bottom: 1.3em;
+}
+/* A thin rule between consecutive poems within one "well – assembled"
+   day (js/data.js inserts a standalone .wa-poem-divider entry between
+   each pair of .wa-poem blocks) — poems already alternate which side
+   of the column they snap to, but a day with five or more short
+   pieces benefits from an explicit boundary too. Deliberately full
+   measure (not scoped to either neighbouring poem's own, narrower
+   fit-content width, unlike Manna's .poem__divider) since the poems
+   either side can be aligned to opposite margins — a rule scoped to
+   one poem's own width wouldn't visually sit between both. */
+.reading__body .wa-poem-divider{
+  width: 100%;
+  margin: 2rem 0;
+  border-top: var(--line-thin) solid var(--ink);
+}
+/* Manna's poem sits in its own wrapper (js/data.js, w5) so the whole
+   piece can be centred as a block within the prose column — width:
+   fit-content shrinks it to the width of its own longest line (the
+   true "poem width") rather than stretching to the full column like
+   ordinary prose, and margin: 0 auto centres that block. Each line
+   inside still starts flush left (ragged right, not centred text),
+   and max-width: 100% keeps it from overflowing a narrow screen,
+   where it falls back to the column's full width exactly as before. */
+.reading__body .poem{
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+/* "Manna" (js/data.js, w5) runs its stanzas as <pre> blocks instead
+   of ordinary <p> paragraphs, because its line breaks and internal
+   tab-driven gaps are a deliberate device of the poem rather than
+   incidental formatting — collapsing them the way plain prose gets
+   re-flowed would lose the effect. white-space: pre-wrap keeps every
+   line break, blank stanza-gap line and tab intact while still
+   letting a long line wrap on a narrow screen; font and size are
+   inherited from .reading__body rather than the browser's monospace
+   <pre> default, so the poem still sits in the site's own body type. */
+.reading__body pre.poem__stanza{
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  margin: 0 0 1.3em;
+}
+/* The break between Manna's two excerpts is its own subchunk boundary
+   (the poem now spans two separate pieces from the collection, not
+   one continuous poem), so it takes the same plain horizontal-rule
+   treatment as the Context/footer dividers below rather than a small
+   centred glyph — just scaled to the poem's own centred width
+   (.poem) instead of the full prose column. */
+.reading__body .poem__divider{
+  margin: 3rem 0;
+  border-top: var(--line-thin) solid var(--ink);
+}
+/* "Context" — a short explanatory/contextual note on a Lyric piece
+   (piece.context in js/data.js), surfaced after the work itself
+   rather than before it: Lyric pieces run without the usual dek (see
+   isCreative in page-piece.js), so there's no framing note pushed on
+   the reader up front. Same divider-plus-heading shell as the
+   bibliography section below it (.reading__notes-section /
+   -heading) so the two read as one family of "below the piece"
+   sections, but its body copy matches ordinary running body text
+   (.reading__body) rather than the bibliography's smaller list type,
+   since this is prose, not a citation list.
+   The blank space above "Context" is margin-top (before the rule)
+   plus padding-top (rule to heading) — 3.5rem + 1.6rem = 5.1rem.
+   .reading__footer directly below keeps its own divider (margin-top
+   3rem + padding-top 1.5rem = 4.5rem, then its own border-top) —
+   padding-bottom here is the remaining 0.6rem needed so that total,
+   padding-bottom + the footer's own margin-top/padding-top, also
+   comes to 5.1rem, matching the space above exactly while still
+   giving the "More Lyric" button its own divider rather than
+   borrowing this section's one. */
+.reading__context-section{
+  margin-top: 3.5rem;
+  padding-top: 1.6rem;
+  padding-bottom: 0.6rem;
+  border-top: var(--line-thin) solid var(--ink);
+}
+.reading__context-heading{
+  font-family: var(--font-headline);
+  font-weight: 900;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+.reading__context-body{
+  font-size: calc(1.08rem * var(--size-mult));
+  line-height: 1.75;
+  color: var(--ink-soft);
+  margin-bottom: 0;
+}
+.reading__footer{
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: var(--line-thin) solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* =========================================================
+   ABOUT PAGE
+   ========================================================= */
+.about-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 800px){ .about-grid{ grid-template-columns: 1fr; } }
+.about-grid .display{ font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 1.2rem; }
+.about-grid p{ margin-bottom: 1.1em; color: var(--ink-soft); font-size: var(--body); }
+.about-grid p strong{ color: var(--ink); }
+
+/* Contact page: the sole content of its half of the two-column
+   chunk — a portrait crop, centred in its column. Both columns start
+   flush with the top of the row (.about-grid's align-items: start),
+   so capping the width here to make height ≈ the form column's own
+   height (labels + fields + button) lines its bottom up with the
+   bottom of the "Send message" button opposite it. */
+.contact-photo-wrap{
+  position: relative;
+  width: 100%;
+  max-width: 365px;
+  margin: 0 auto;
+}
+.contact-photo-placeholder{
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  border: var(--line-thin) solid var(--ink);
+  object-fit: cover;
+}
+
+.credit-list{ margin-top: 1.5rem; }
+.credit-list li{
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7em 0;
+  border-bottom: var(--line-thin) solid var(--ink);
+  font-size: 0.95rem;
+}
+.credit-list li span.role{ color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.78rem; }
+
+/* ---------- Contact form ---------- */
+.contact-form{ margin-top: 1.5rem; }
+.field{ margin-bottom: 1.2rem; }
+.field label{
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+}
+.field input, .field textarea{
+  width: 100%;
+  border: var(--line-thin) solid var(--ink);
+  background: var(--paper);
+  padding: 0.8em 0.9em;
+}
+.field textarea{ min-height: 140px; resize: vertical; }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer{
+  border-top: var(--line-thick) solid var(--line);
+  padding-block: 1.25rem;
+}
+/* Dramatic/Epic/Lyric/Contact echo their own page's hero background
+   pattern (see HERO / INTRO BAND, and the Contact hero, below) at a
+   smaller scale in the footer, so that "first chunk" motif bookends
+   the page instead of only appearing once at the top. The homepage
+   and Sidings (events.html) have no such pattern to echo, so their
+   plain footer is untouched. */
+.site-footer--dramatic,
+.site-footer--epic,
+.site-footer--lyric,
+.site-footer--contact{ position: relative; overflow: hidden; }
+.site-footer--dramatic .container,
+.site-footer--epic .container,
+.site-footer--lyric .container,
+.site-footer--contact .container{ position: relative; z-index: 1; }
+.footer__pattern{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.site-footer--dramatic .footer__pattern{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
+.site-footer--epic .footer__pattern{ color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.site-footer--lyric .footer__pattern{ color: color-mix(in srgb, var(--accent3) 45%, transparent); }
+.site-footer--contact .footer__pattern .shape--dramatic{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
+.site-footer--contact .footer__pattern .shape--epic{ color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.site-footer--contact .footer__pattern .shape--lyric{ color: color-mix(in srgb, var(--accent3) 45%, transparent); }
+/* On the homepage the footer follows the black Sidings section
+   directly — an oxblood border there instead of the usual ink one
+   reads as a continuation of that section's own colour rather than
+   just another generic divider. Same thick weight used for major
+   section boundaries elsewhere, just recoloured. Scoped to that one
+   adjacency, so every other page keeps the plain thick ink
+   border-top. */
+main:has(.events-teaser) + .site-footer{ border-top-color: var(--sidings); }
+/* Sidings' own archive page (events.html) bookends its whole main
+   with the same oxblood, full-width, same-thickness divider — one
+   below the header (.site-header--sidings), one here above the
+   footer. */
+.site-footer--sidings{ border-top-color: var(--sidings); }
+.site-footer .container{ width: 100%; }
+.site-footer__top{
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+/* Title + copyright share one column, stretched to the same height
+   as the stacked contact links opposite — so the copyright can sit
+   at the very bottom, aligned with "Sidings" (the last of those
+   links), instead of directly under the title. */
+.site-footer__brand{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+/* Matches the size of the Dramatic/Epic/Lyric category-band titles
+   above (.category-band__title). Forced literally black on the light
+   pages, rather than following --ink (which is already black there
+   anyway) — the hardcoded value is what keeps it black should --ink
+   ever change. On the dark Sidings page that same hardcoded black
+   would sit invisibly on that page's near-black background, so it
+   falls back to --ink there instead, which is near-white in dark
+   theme. */
+.site-footer__title{
+  font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+  line-height: 0.9;
+  /* At this larger size the cap-height sits right against the
+     divider above with no breathing room — a top margin gives it
+     proper clearance. Kept smaller than before (was 1.1rem) to pull
+     the title up slightly and free up room for the "Contact form"
+     link that now sits beneath it. */
+  margin-top: 0.5rem;
+  color: #14110E;
+}
+body[data-theme="dark"] .site-footer__title{ color: var(--ink); }
+/* The "Contact form" link sits between the title and the copyright —
+   same treatment as every other footer link (.site-footer a), just
+   placed in the brand column instead of the .site-footer__extra
+   list, since it's a page on this site rather than an outbound/
+   contact-method link. */
+.site-footer__brand a{ align-self: flex-start; }
+.site-footer a{
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.site-footer a:hover{ text-decoration: underline; }
+/* The contact/social links sit opposite the title and stack one per
+   line (rather than running in a row) so they read as a distinct,
+   right-aligned column of their own. */
+.site-footer__extra{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+}
+.site-footer__extra a{ display: inline-flex; align-items: center; gap: 0.45em; }
+.site-footer__ig{ width: 0.95em; height: 0.95em; flex: none; }
+.site-footer small{
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+}
+
+/* =========================================================
+   RESPONSIVE NAV (mobile)
+   ========================================================= */
+@media (max-width: 720px){
+  /* Unstyled <button>s pick up the mobile browser's own default
+     button-text colour (a light blue on some mobile browsers,
+     rather than inheriting the page's ink) when nothing sets their
+     colour explicitly — only visible here since .nav-toggle is
+     display:none outside this breakpoint. */
+  .nav-toggle{ display: inline-flex; align-items: center; gap: 0.5em; color: var(--ink); }
+  .main-nav{
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: var(--paper);
+    border-bottom: var(--line-thick) solid var(--ink);
+    display: none;
+    padding: 1rem var(--gutter) 1.5rem;
+  }
+  .main-nav.is-open{ display: block; }
+  .main-nav ul{ flex-direction: column; align-items: flex-start; gap: 1rem; }
+  /* The coloured squiggle under Dramatic/Epic/Lyric is centred under
+     the link on desktop's horizontal row (looks right there since
+     each link is only as wide as its own word). Stacked in this
+     single-column mobile menu, a centred squiggle drifts further
+     from the left edge the longer the word is — barely noticeable
+     under "Epic"/"Lyric" but visibly adrift under "Dramatic" — so
+     here it's pinned to the start of the word instead, flush with
+     the rest of the list. */
+  .main-nav a[href="dramatic.html"]::after,
+  .main-nav a[href="epic.html"]::after,
+  .main-nav a[href="lyric.html"]::after{
+    left: 0;
+    transform: none;
+  }
+  /* Extra breathing room above the Sidings pill so it doesn't crowd
+     Lyric's own squiggle just above it — on top of the column's own
+     1rem item gap (.main-nav ul, above). Targets the <li> rather
+     than the link itself: the link is a plain inline element (its
+     pill shape comes from background/padding/radius alone), and a
+     top margin on an inline element has no effect on layout at all,
+     so it has to go on the block-level list item instead. */
+  .main-nav li:last-child{ margin-top: 1.1rem; }
+}
+
+/* Utility: empty state */
+.empty-state{
+  padding: 3rem 1rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  grid-column: 1 / -1;
+}
