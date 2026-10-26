@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100">
+  <defs>
+    <pattern id="p" width="40" height="40" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#E9528F"/>
+      <rect width="20" height="40" fill="#16140F" opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="1100" fill="url(#p)"/>
+  <rect x="0" y="0" width="900" height="1100" fill="none" stroke="#16140F" stroke-width="6"/>
+  <text x="450.0" y="540.0" font-family="Georgia, serif" font-size="54.0" font-weight="700" fill="#16140F" text-anchor="middle">COVER</text>
+  <text x="450.0" y="590.0" font-family="monospace" font-size="19.799999999999997" letter-spacing="2" fill="#16140F" text-anchor="middle" opacity="0.75">IMAGE PLACEHOLDER</text>
+</svg>
