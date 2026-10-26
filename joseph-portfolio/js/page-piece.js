@@ -7,7 +7,7 @@
 // whichever comes next. Monday is the collection's last day, so it closes
 // the loop into w11 ("Parsing My Poetry"), the Epic critical reflection on
 // the collection, rather than a sixth day. That button keeps Lyric's own
-// gold (tagClass, same as every other day-to-day link here) rather than
+// green (tagClass, same as every other day-to-day link here) rather than
 // picking up w11's Epic/essays accent, for visual consistency with the
 // rest of the page — same treatment as the matching button on the Lyric
 // page itself (see .wa-showcase__coda in lyric.html), including its full

@@ -2,7 +2,7 @@
 
 A plain HTML/CSS/JS site (no build step, no framework) for your writing
 — split into **Dramatic** (journalism), **Epic** (essays & reviews) and
-**Lyric** (poetry & fiction) — and your event series, Sidings (formerly
+**Lyric** (poetry & fiction) — and your event series, Freewheel (formerly
 People Carrier). Free to host on Netlify.
 
 ## Pages
@@ -57,7 +57,7 @@ hard-coded in the HTML:
 - `images/misc/favicon.svg` — the "JQ" logo mark used everywhere on
   the light (writing) pages: the browser-tab icon and the header
   logo. Cream background, black mark, red bar.
-- `images/misc/favicon-dark.svg` — the same mark for the dark Sidings
+- `images/misc/favicon-dark.svg` — the same mark for the dark Freewheel
   page (events.html only): black background, red mark, cream bar.
   Swap either file and both its uses (tab icon + header) update
   together. A rendered 240×240 PNG of the light version is also
@@ -86,10 +86,10 @@ Every page's footer has a "Contact" title on the left (with the
 copyright beneath it, and a small "Contact form" link in between that
 points at `contact.html`) and, opposite it on the right, your email as
 a `mailto:` link, a "Download CV (.pdf)" link, and Instagram links for
-you and Sidings. The CV link points at `files/joseph-quash-cv.pdf`,
-which right now is just a one-page placeholder saying so — replace it
-with your real CV exported as a PDF, using the **same file name and
-path**, and the link updates automatically everywhere. This footer is
+you and Freewheel. The CV link points at `files/joseph-quash-cv.pdf`,
+which is your current CV (v10, 2026) — to update it, replace that
+file with a new PDF using the **same file name and path**, and the
+link updates automatically everywhere. This footer is
 duplicated across all seven HTML pages (there's no shared template),
 so if you ever change one of these links by hand, update it in the
 others too.
@@ -129,7 +129,7 @@ this comfortably — no monthly fee, unlike your old Squarespace plan.
 
 ## Per-article previews when sharing a piece
 
-When you share a link to the homepage, Epic, Dramatic, Lyric, Sidings
+When you share a link to the homepage, Epic, Dramatic, Lyric, Freewheel
 or Contact, the preview that shows up in Slack/iMessage/X/etc. (title,
 description, image) is baked right into that page's HTML, so it just
 works everywhere.
@@ -165,19 +165,19 @@ page, just without a personalised preview for that one link.
   rules, saturated flat colour used as flags rather than backgrounds,
   chunky offset-shadow buttons, a bold condensed headline face.
 - **Two halves, one throughline.** The writing pages (Home, Dramatic,
-  Epic, Lyric, About) stay on the light paper theme; Sidings
+  Epic, Lyric, About) stay on the light paper theme; Freewheel
   (`events.html`) runs a fully inverted dark theme via
   `<body data-theme="dark">`, which just redefines the same colour
   tokens — every component is built from those tokens, so the flip
   cascades automatically with no per-component overrides. What stays
   identical on both sides: type, spacing, rule weights, the
-  offset-shadow button mechanic, and `--sidings` (the brick red),
+  offset-shadow button mechanic, and `--sidings` (the amber),
   which is the one colour that does **not** change between light and
-  dark — it's Sidings' own fixed identity, used for its logo border,
+  dark — it's Freewheel's own fixed identity, used for its logo border,
   nav pill, dashed dividers and event-page accents.
-- Category colours: **Dramatic** = blue, **Epic** = orange-red,
-  **Lyric** = yellow — each also gets its own always-on wavy nav
-  underline. **Sidings** = brick red (`--sidings`), a fourth identity
+- Category colours: **Dramatic** = blue, **Epic** = pink,
+  **Lyric** = green — each also gets its own always-on wavy nav
+  underline. **Freewheel** = amber (`--sidings`), a fourth identity
   colour of its own rather than tied to a category. Change any of
   these in the `:root` tokens at the top of `css/style.css`.
 - **Lyric** intentionally breaks from the shared grid: circular
@@ -192,3 +192,19 @@ page, just without a personalised preview for that one link.
 - The site is fully responsive and works without JavaScript for
   navigation and reading layout; JavaScript is only used to render
   the writing/events lists from `data.js` and to run the carousels.
+
+## Freewheel logo
+
+The logo on `events.html` is `images/misc/freewheel-logo.png` (amber on a
+transparent background, cut out from the mockup PDF). To replace it with a
+final version, overwrite that file (or point the `<img class="freewheel-logo">`
+at a new one). A vector SVG would be sharper if you have one.
+
+## Note on internal names
+
+The event series was renamed from Sidings to Freewheel in all visible
+text. Internal names were deliberately left as they were so nothing
+breaks: the `series: "sidings"` value in `js/data.js`, CSS classes and
+the `--sidings` colour token, and the `sidings-launch-*` image
+filenames. The Instagram links in the footers still point at the
+existing `peoplecarrieruk` account.

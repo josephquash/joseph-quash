@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isSidings = ev.series === "sidings";
     const eyebrowClass = isSidings ? "event-block__eyebrow--sidings" : "event-block__eyebrow--pc";
-    const eyebrowLabel = isSidings ? "Sidings" : "People Carrier";
+    const eyebrowLabel = isSidings ? "Freewheel" : "People Carrier";
 
     // Not launched yet — no photos/video/artwork to show, so swap in
     // the same "Coming 2027" placeholder graphic used on the homepage
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
          ${hasVideo ? `<div class="media-panel" data-media="video" hidden></div>` : ""}`;
 
     // Archive volumes get a structured Date / Venue / Lineup block; an
-    // event with no lineup field yet (the not-launched Sidings entry)
+    // event with no lineup field yet (the not-launched Freewheel entry)
     // keeps the simple one-line meta instead. Artwork/photo credits
     // render on their own carousels (see buildCarousel's `credit`
     // option below), not in this details block.

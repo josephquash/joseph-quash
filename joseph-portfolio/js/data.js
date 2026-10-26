@@ -862,7 +862,7 @@ window.SITE_DATA = {
       // whenever launched is false. Set to true (or remove the line)
       // once there's real artwork/photos/video to show instead.
       launched: false,
-      name: "Sidings Vol. I",
+      name: "Freewheel Vol. I",
       date: "TBA",
       venue: "TBA",
       lineup: "TBA",
@@ -894,7 +894,7 @@ window.SITE_DATA = {
       artworkCredit: "Isaac Jackson",
       photoCredit: "Joseph Quash",
       blurb: [
-        "London-based breakouts Gabriel Rai & Dora led the late night charge at home away from home Eiger Studios. Their record bags are bona fide treasure troves, and they blessed the crowd with everything from tripped-out bleepish madness to hypnotising housey harmonies.",
+        "London-based breakouts Gabriel Rai and Dora led the late night charge at home away from home Eiger Studios. Their record bags are bona fide treasure troves, and they blessed the crowd with everything from tripped-out bleepish madness to hypnotising housey harmonies.",
         "Soundtracking the rest of the night were dear friends of the Carrier: Just Blakey, Markos and Oscar, unbelievably talented DJs who warmed the floor up, and later shut it down."
       ],
       photos: [
@@ -915,7 +915,7 @@ window.SITE_DATA = {
       name: "People Carrier Vol. II",
       date: "2025-06-05",
       venue: "Eiger Studios",
-      lineup: "Flash Mitra, Olly and Torin, Will Quash & Noah O’Sullivan, Saul Connelly & Joseph Quash",
+      lineup: "Flash Mitra, Olly & Torin, Will Quash & Noah O’Sullivan, Saul Connelly & Joseph Quash",
       artworkCredit: "Isaac Jackson",
       photoCredit: "Simeon Georgiev",
       blurb: [

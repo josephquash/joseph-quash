@@ -21,18 +21,18 @@
   --ink: #14110E;
   --ink-soft: #4A4739;
 
-  --accent: #EC5933;      /* Epic flag */
+  --accent: #E9528F;      /* Epic flag (pink) */
   --accent-ink: #14110F;
   --accent2: #344BCC;     /* Dramatic flag */
   --accent2-ink: #F1EEE8;
-  --accent3: #EBC451;     /* Lyric flag */
-  --accent3-ink: #14110F;
+  --accent3: #3C9F54;     /* Lyric flag (green) */
+  --accent3-ink: #14110F;  /* dark text on green fill */
 
-  --sidings: #B23A3D;     /* Sidings' own brand colour — constant
+  --sidings: #FF9410;     /* Freewheel's own brand colour — constant
                               across light and dark, a fourth
                               identity alongside the three writing
                               categories rather than tied to one */
-  --sidings-ink: #F1EEE8;
+  --sidings-ink: #14110E;  /* dark text on amber */
 
   --line: var(--ink);
   --line-thin: 1px;
@@ -59,11 +59,11 @@
   --gutter: clamp(1.25rem, 4vw, 3rem);
 }
 
-/* ---------- Dark theme (Sidings half) ----------
+/* ---------- Dark theme (Freewheel half) ----------
    Same component system as the rest of the site — type,
    spacing, borders, shadow language — with paper/ink (and
    one accent) inverted. Scoped to <body data-theme="dark">,
-   used only on events.html, so crossing into Sidings reads
+   used only on events.html, so crossing into Freewheel reads
    as a different room of the same house, not a different
    site: every component below is still built from these
    tokens, so the flip cascades automatically. --sidings is
@@ -142,8 +142,8 @@ input, textarea{ font: inherit; }
   top: 0;
   z-index: 50;
 }
-/* Sidings only: same thickness and solid style as every other
-   page's header rule, just in the oxblood that carries the rest
+/* Freewheel only: same thickness and solid style as every other
+   page's header rule, just in the amber that carries the rest
    of the page — a full, uninterrupted line the whole width of the
    header, not the dashed hero-to-list rule further down the page. */
 .site-header--sidings{ border-bottom-color: var(--sidings); }
@@ -280,7 +280,7 @@ body[data-theme="dark"] .logo-mark__bar{ background: #F1EEE8; }
 .main-nav a[href="epic.html"]::after{ background-color: var(--accent); }
 .main-nav a[href="lyric.html"]::after{ background-color: color-mix(in srgb, var(--accent3) 75%, var(--ink) 25%); }
 .main-nav a[aria-current="page"]{ font-weight: 700; }
-/* Sidings: a solid pill rather than a text link — the nav itself
+/* Freewheel: a solid pill rather than a text link — the nav itself
    hints at the site's two halves. Colour is --sidings, which does
    not flip with the light/dark theme, so the pill reads identically
    whichever half you're on. */
@@ -307,7 +307,7 @@ body[data-theme="dark"] .logo-mark__bar{ background: #F1EEE8; }
   padding-block: clamp(2.5rem, 6vw, 5rem);
   border-bottom: var(--line-thick) solid var(--line);
 }
-/* Sidings' hero hands off to the event list with its own dashed
+/* Freewheel's hero hands off to the event list with its own dashed
    red rule instead of the site's usual solid ink one. */
 .hero--sidings-divider{
   border-bottom-style: dashed;
@@ -323,7 +323,7 @@ body[data-theme="dark"] .logo-mark__bar{ background: #F1EEE8; }
 .hero__kicker::before{
   content: "";
   width: 0.6em; height: 0.6em;
-  background: var(--sidings); /* oxblood, site-wide */
+  background: var(--sidings); /* amber, site-wide */
   border-radius: 50%;
   display: inline-block;
 }
@@ -334,7 +334,7 @@ body[data-theme="dark"] .hero__kicker::before{ background: var(--sidings); }
   max-width: 16ch;
 }
 /* A dictionary-style gloss on the page's own name — sits right under
-   the Sidings h1, in the same smaller italic serif as the "well –
+   the Freewheel h1, in the same smaller italic serif as the "well –
    assembled" subtitle on Lyric, so a title-plus-definition treatment
    reads as an established move rather than a one-off for this page. */
 .hero__definition{
@@ -387,9 +387,9 @@ body[data-theme="dark"] .hero__kicker::before{ background: var(--sidings); }
 }
 /* The homepage's own intro — "the first chunk" — is the one place
    this reads at the larger size; every other hero (Dramatic, Epic,
-   Lyric, Sidings) now falls back to the shared --body size above. */
+   Lyric, Freewheel) now falls back to the shared --body size above. */
 .hero--intro p.lede{ font-size: var(--body-lg); }
-/* Sidings' new intro copy runs the full width of the page for now,
+/* Freewheel's new intro copy runs the full width of the page for now,
    rather than wrapping at the usual 56ch — a placeholder stance
    until there's a finished logo/mark to help fill and balance the
    space, at which point this is worth revisiting. */
@@ -468,9 +468,9 @@ body[data-theme="dark"] .hero__kicker::before{ background: var(--sidings); }
    keyline, since paper-on-paper alone vanishes against the page.
    The ink layer is drawn at the SAME offset/size as every other
    button's plain shadow (0 spread), so the overall silhouette is an
-   identical height/size to "See Sidings" — it's only reversed in
+   identical height/size to "See Freewheel" — it's only reversed in
    colour. The paper layer sits on top, pulled in by --line-thin (the
-   same 1px used for every button's own border, incl. "See Sidings"'
+   same 1px used for every button's own border, incl. "See Freewheel"'
    left/top edge) so the visible keyline reads as the same weight as
    that border rather than a heavier, mismatched outline. */
 .btn--solid{ background: var(--ink); color: var(--paper); border-color: var(--ink); box-shadow: 4px 4px 0 calc(-1 * var(--line-thin)) var(--paper), 4px 4px 0 0 var(--ink); }
@@ -496,7 +496,7 @@ body[data-theme="dark"] .hero__kicker::before{ background: var(--sidings); }
 .btn--on-dark{ background: var(--paper); color: var(--ink); box-shadow: 6px 6px 0 var(--paper); border-color: var(--paper); }
 .btn--on-dark:hover{ box-shadow: 6px 6px 0 var(--sidings); }
 .btn--sidings{ background: var(--sidings); color: var(--sidings-ink); border-color: var(--ink); }
-/* Homepage-hero-only variant: oxblood fill with white/paper text —
+/* Homepage-hero-only variant: amber fill with white/paper text —
    same idea as .btn--sidings, but paired with the .btn--solid-style
    paper shadow + thin ink keyline (instead of the plain ink shadow
    .btn--sidings uses elsewhere) so it keeps the same shadow weight
@@ -951,7 +951,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
    above it) and the 1.8rem gap the old standalone block had. Same
    reading__more hero-button treatment the day-pages themselves use
    for this exact link (see .reading__footer in js/page-piece.js),
-   kept in Lyric's own gold rather than Epic's orange for visual
+   kept in Lyric's own green rather than Epic's pink for visual
    consistency with the rest of this page, even though the piece it
    links to lives in Epic. */
 .wa-calendar__coda{
@@ -1127,7 +1127,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 /* Contact page hero: same scattered-shape treatment as the Dramatic/
    Epic/Lyric pages above, but combined into one background — squares,
    triangles and circles side by side, each tinted to its own page's
-   colour (blue/orange-red/yellow) rather than picking just one. */
+   colour (blue/pink/green) rather than picking just one. */
 .contact-hero{ position: relative; overflow: hidden; }
 .contact-hero .container{ position: relative; z-index: 1; }
 .contact-hero .hero__pattern .shape--dramatic{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
@@ -1195,9 +1195,9 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 .background-block .credit-list{ max-width: 62ch; margin-top: 0; }
 
 /* Each paragraph's spine colour follows what it's actually about —
-   editorial background, creative writing, journalism, then Sidings
+   editorial background, creative writing, journalism, then Freewheel
    — the same four colours used for the category flags and the
-   Sidings pill elsewhere on the site, so the tie-back reads as
+   Freewheel pill elsewhere on the site, so the tie-back reads as
    intentional. */
 .background-block__bio--epic{ border-left-color: var(--accent); }
 .background-block__bio--dramatic{ border-left-color: var(--accent2); }
@@ -1284,7 +1284,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 /* The Lyric band's own bottom padding above is already a full
    "between-bands" gap on its own — letting #writing's own full
    section padding stack on top of it (below) would double it up
-   right where the oxblood boundary with Sidings follows, so it's
+   right where the amber boundary with Freewheel follows, so it's
    zeroed out here to match the normal gap used between
    Dramatic/Epic/Lyric themselves. */
 #writing{ padding-bottom: 0; }
@@ -1427,7 +1427,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
    with its own -ink token, same as the piece-card category tags,
    which is already proven legible (this is why Lyric uses plain
    --accent3 here rather than the darkened mix the title/tag-only
-   version needed — dark text on a yellow fill reads fine; yellow
+   version needed — dark text on a green fill reads fine; green
    text on the paper page doesn't). */
 .category-band__link--dramatic{
   background: var(--accent2);
@@ -1537,10 +1537,10 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 /* =========================================================
    EVENTS TEASER (inverted band)
    ========================================================= */
-/* Writings and the solid-black Sidings section below are direct
+/* Writings and the solid-black Freewheel section below are direct
    sibling <section>s, so the generic `section + section` rule
    already draws a thick border-top between them — just recoloured
-   to oxblood here so the break reads as Sidings' own moment rather
+   to amber here so the break reads as Freewheel's own moment rather
    than a plain ink section boundary. */
 #writing + .events-teaser{ border-top-color: var(--sidings); }
 
@@ -1599,7 +1599,26 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
     color-mix(in srgb, var(--paper) 5%, transparent) 20px 40px
   );
 }
+/* Faint amber Freewheel logo watermark behind the "Coming 2027" text.
+   One rule covers both places the placeholder appears (homepage Events
+   section and the Freewheel page), since they share this class. The logo
+   file is already amber on transparent, so only opacity is set here;
+   raise or lower it to make the watermark stronger or fainter. */
+.sidings-placeholder{
+  position: relative;
+  isolation: isolate;
+}
+.sidings-placeholder::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("../images/misc/freewheel-logo.png") center / auto 88% no-repeat;
+  opacity: 0.16;
+  pointer-events: none;
+}
 .sidings-placeholder__tagline{
+  position: relative;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: clamp(1.05rem, 2.4vw, 1.4rem);
@@ -1623,12 +1642,48 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 }
 .event-block__media .sidings-placeholder__tagline{ color: var(--ink); }
 
+/* Freewheel hero (events.html): kicker/h1/definition on the left with
+   the logo at the top right, and the intro copy running the full
+   width of the page underneath. */
+.freewheel-hero{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "head logo"
+    "body body";
+  column-gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+.freewheel-hero__head{ grid-area: head; }
+.freewheel-hero__body{ grid-area: body; }
+.freewheel-logo{
+  grid-area: logo;
+  justify-self: end;
+  width: clamp(130px, 15vw, 190px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+@media (max-width: 600px){
+  .freewheel-hero{
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "head"
+      "logo"
+      "body";
+  }
+  .freewheel-logo{
+    justify-self: start;
+    width: 130px;
+    margin-top: 0.25rem;
+  }
+}
+
 /* =========================================================
    EVENT DETAIL BLOCKS (events.html)
    Split layout, echoing the mockup: media on the left, event
    info on the right, separated by a red rule — dashed red
    rules (rather than the plain ink ones used elsewhere) divide
-   one event from the next, reinforcing Sidings' own red as the
+   one event from the next, reinforcing Freewheel's own red as the
    thread running through this half of the site.
    ========================================================= */
 .event-block{
@@ -1657,10 +1712,10 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 }
 .event-block__eyebrow{ margin-bottom: 0.6rem; }
 .event-block__eyebrow--sidings{ color: var(--sidings); }
-/* Was --accent3 (Lyric's yellow) — People Carrier isn't a fourth
-   writing category, it's Sidings' former name, so it borrows from
+/* Was --accent3 (Lyric's green) — People Carrier isn't a fourth
+   writing category, it's Freewheel's former name, so it borrows from
    --sidings itself rather than a colour that belongs to Lyric: a
-   muted, dustier version of the same oxblood, reading as "the
+   muted, dustier version of the same amber, reading as "the
    earlier chapter" of the same brand rather than an unrelated hue. */
 .event-block__eyebrow--pc{ color: color-mix(in srgb, var(--sidings) 55%, var(--ink) 45%); }
 .event-block__head h2{
@@ -1804,8 +1859,8 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
      with their own default button-text blue instead of inheriting the
      page's ink. Pinning it here makes the resting state read exactly
      as it already does on desktop (paper bg / ink arrow — white-on-
-     black once the Sidings dark theme swaps those tokens), with the
-     existing :hover below carrying the oxblood "selected" state
+     black once the Freewheel dark theme swaps those tokens), with the
+     existing :hover below carrying the amber "selected" state
      through on both. */
   color: var(--ink);
   font-family: var(--font-mono);
@@ -2552,7 +2607,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 }
 /* Drop cap colour follows the same per-category accent as the
    section headings and blockquotes above, rather than defaulting to
-   essays' orange for every piece. */
+   essays' pink for every piece. */
 .reading.cat--journalism .reading__body p:first-of-type::first-letter{ color: var(--accent2); }
 .reading.cat--creative .reading__body p:first-of-type::first-letter{ color: color-mix(in srgb, var(--accent3) 65%, var(--ink) 35%); }
 /* A quoted epigraph's own <p> is structurally first-of-type within
@@ -2805,7 +2860,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
    pattern (see HERO / INTRO BAND, and the Contact hero, below) at a
    smaller scale in the footer, so that "first chunk" motif bookends
    the page instead of only appearing once at the top. The homepage
-   and Sidings (events.html) have no such pattern to echo, so their
+   and Freewheel (events.html) have no such pattern to echo, so their
    plain footer is untouched. */
 .site-footer--dramatic,
 .site-footer--epic,
@@ -2828,16 +2883,16 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 .site-footer--contact .footer__pattern .shape--dramatic{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
 .site-footer--contact .footer__pattern .shape--epic{ color: color-mix(in srgb, var(--accent) 45%, transparent); }
 .site-footer--contact .footer__pattern .shape--lyric{ color: color-mix(in srgb, var(--accent3) 45%, transparent); }
-/* On the homepage the footer follows the black Sidings section
-   directly — an oxblood border there instead of the usual ink one
+/* On the homepage the footer follows the black Freewheel section
+   directly — an amber border there instead of the usual ink one
    reads as a continuation of that section's own colour rather than
    just another generic divider. Same thick weight used for major
    section boundaries elsewhere, just recoloured. Scoped to that one
    adjacency, so every other page keeps the plain thick ink
    border-top. */
 main:has(.events-teaser) + .site-footer{ border-top-color: var(--sidings); }
-/* Sidings' own archive page (events.html) bookends its whole main
-   with the same oxblood, full-width, same-thickness divider — one
+/* Freewheel's own archive page (events.html) bookends its whole main
+   with the same amber, full-width, same-thickness divider — one
    below the header (.site-header--sidings), one here above the
    footer. */
 .site-footer--sidings{ border-top-color: var(--sidings); }
@@ -2852,7 +2907,7 @@ main:has(.events-teaser) + .site-footer{ border-top-color: var(--sidings); }
 }
 /* Title + copyright share one column, stretched to the same height
    as the stacked contact links opposite — so the copyright can sit
-   at the very bottom, aligned with "Sidings" (the last of those
+   at the very bottom, aligned with "Freewheel" (the last of those
    links), instead of directly under the title. */
 .site-footer__brand{
   display: flex;
@@ -2864,7 +2919,7 @@ main:has(.events-teaser) + .site-footer{ border-top-color: var(--sidings); }
    above (.category-band__title). Forced literally black on the light
    pages, rather than following --ink (which is already black there
    anyway) — the hardcoded value is what keeps it black should --ink
-   ever change. On the dark Sidings page that same hardcoded black
+   ever change. On the dark Freewheel page that same hardcoded black
    would sit invisibly on that page's near-black background, so it
    falls back to --ink there instead, which is near-white in dark
    theme. */
@@ -2945,7 +3000,7 @@ body[data-theme="dark"] .site-footer__title{ color: var(--ink); }
     left: 0;
     transform: none;
   }
-  /* Extra breathing room above the Sidings pill so it doesn't crowd
+  /* Extra breathing room above the Freewheel pill so it doesn't crowd
      Lyric's own squiggle just above it — on top of the column's own
      1rem item gap (.main-nav ul, above). Targets the <li> rather
      than the link itself: the link is a plain inline element (its
