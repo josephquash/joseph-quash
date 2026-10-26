@@ -1133,7 +1133,6 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
 .contact-hero .hero__pattern .shape--dramatic{ color: color-mix(in srgb, var(--accent2) 45%, transparent); }
 .contact-hero .hero__pattern .shape--epic{ color: color-mix(in srgb, var(--accent) 45%, transparent); }
 .contact-hero .hero__pattern .shape--lyric{ color: color-mix(in srgb, var(--accent3) 45%, transparent); }
-.thank-you-hero p.lede{ margin-top: 4rem; }
 
 /* =========================================================
    HOMEPAGE BACKGROUND SECTION
@@ -2818,6 +2817,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
   border: var(--line-thin) solid var(--ink);
   object-fit: cover;
 }
+.thank-you-hero p.lede{ margin-top: 4rem; }
 
 .credit-list{ margin-top: 1.5rem; }
 .credit-list li{
