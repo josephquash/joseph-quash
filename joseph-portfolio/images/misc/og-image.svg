@@ -2,7 +2,7 @@
   
         <defs>
           <pattern id="p" width="40" height="40" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-            <rect width="40" height="40" fill="#FF4A1C"/>
+            <rect width="40" height="40" fill="#E9528F"/>
             <rect width="20" height="40" fill="#16140F" opacity="0.06"/>
           </pattern>
         </defs>
@@ -10,5 +10,5 @@
         
   <rect x="0" y="0" width="1200" height="630" fill="none" stroke="#16140F" stroke-width="6"/>
   <text x="600.0" y="305.0" font-family="Georgia, serif" font-size="72.0" font-weight="700" fill="#16140F" text-anchor="middle">JOSEPH QUASH</text>
-  <text x="600.0" y="355.0" font-family="monospace" font-size="26.4" letter-spacing="2" fill="#16140F" text-anchor="middle" opacity="0.75">WRITING — SIDINGS — CREATIVE WORK</text>
+  <text x="600.0" y="355.0" font-family="monospace" font-size="26.4" letter-spacing="2" fill="#16140F" text-anchor="middle" opacity="0.75">WRITING — FREEWHEEL — CREATIVE WORK</text>
 </svg>

@@ -4,11 +4,11 @@
   <!-- shapes nudged toward the centre of the frame as a group -->
   <g transform="translate(25,95)">
     <!-- Lyric: circle, bleeding off the top-left corner -->
-    <circle cx="300" cy="150" r="230" fill="#F2C230"/>
+    <circle cx="300" cy="150" r="230" fill="#3C9F54"/>
     <circle cx="300" cy="150" r="230" fill="none" stroke="#16140F" stroke-width="6"/>
 
     <!-- Epic: triangle, bleeding off the right edge, cutting through the circle -->
-    <polygon points="560,20 860,560 340,620" fill="#FF4A1C"/>
+    <polygon points="560,20 860,560 340,620" fill="#E9528F"/>
     <polygon points="560,20 860,560 340,620" fill="none" stroke="#16140F" stroke-width="6"/>
 
     <!-- Dramatic: square, bleeding off the left and bottom edges, cutting through both -->
