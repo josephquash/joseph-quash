@@ -1612,7 +1612,7 @@ section + section{ border-top: var(--line-thick) solid var(--line); }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: url("../images/misc/freewheel-logo.png") center / auto 88% no-repeat;
+  background: url("../images/misc/freewheel-logo-amber.png") center / auto 88% no-repeat;
   opacity: 0.16;
   pointer-events: none;
 }
